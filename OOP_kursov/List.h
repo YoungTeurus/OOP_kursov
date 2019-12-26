@@ -27,7 +27,7 @@ public:
 private:
 	T*			_obj;				// Указатель на хранимый объект
 	List<T>*	_next;				// Указатель на следующий элемент
-	unsigned int _stored_items_type_hash; // Хэш-сумма типа элементов, хранимых в списке
+	unsigned int _stored_items_type_hash = 0; // Хэш-сумма типа элементов, хранимых в списке
 };
 
 template<typename T>
@@ -157,6 +157,12 @@ inline T* List<T>::get_obj()
 	if (!this)
 		return nullptr;
 	return _obj;
+}
+
+template<typename T>
+inline unsigned int List<T>::get_type()
+{
+	return _stored_items_type_hash;
 }
 
 template<typename T>
