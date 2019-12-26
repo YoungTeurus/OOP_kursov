@@ -1,11 +1,9 @@
-#include "List.h"
-#include <sstream>
+#include "Table.h"
 #include <iostream>
+#include <stdlib.h>
 
-#define TYPE_0 int
-#define TYPE_1 double
-#define TYPE_2 std::string
 
+/*
 std::string convertInt(int number)
 {
 	std::stringstream ss;
@@ -95,10 +93,25 @@ std::string get_cell(List<BaseObject>* list, int col, int row) {
 
 	return result;
 }
+*/
 
 int main() {
 	using namespace std;
+	srand(12341241);
 
+	Table tbl;
+
+	tbl.add_column(0);
+	tbl.add_column(1);
+	tbl.add_column(2);
+	for (int i = 0; i < 10; i++) {
+		tbl.append_in_column(new int(rand()%10001 - 5000), 0); // Запись числа "i" в первый столбик
+		tbl.append_in_column(new double(rand() % 10001 - 5000 + 3.5), 1);
+		tbl.append_in_column(new std::string("Wow it is " + Table::convertInt(i) + " element!"), 2);
+	}
+	tbl.beauty_print();
+
+	/*
 	List<BaseObject> test2_list;
 
 	add_column(&test2_list, 0); // Столбик 0 - int-ы
@@ -116,6 +129,7 @@ int main() {
 			 << get_cell(&test2_list, 1, i) <<"  " 
 			 << get_cell(&test2_list, 2, i) << "\n"; // Вывод первой ячейки первого столбика
 	}
+	*/
 	
 	// Код для объяснений
 	{

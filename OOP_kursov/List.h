@@ -7,6 +7,7 @@ public:
 	// Методы для базового класса
 	int				type();
 	const char*		name();
+	unsigned int get_type(); // Получить хеш-сумму типа элементов, хранимых в списке
 public:
 				List();				// Конструктор пустого списка
 				List(unsigned int type_hash);// Конструктор пустого списка с определением типа хранимых элементов
@@ -19,11 +20,7 @@ public:
 	List<T>*	operator[](const int index);
 
 	T*			get_obj();
-	unsigned int get_type(); // Получить хеш-сумму типа элементов, хранимых в списке
-//template < typename T>
-//friend 		std::ostream& operator<<(std::ostream& out, const List<T>& list); // Перегрузка << для вывода в std::cout
-//template < typename T>
-//friend 		std::istream& operator>>(std::istream& in, List<T>& list); // Перегрузка >> для ввода в std::cin
+	
 private:
 	T*			_obj;				// Указатель на хранимый объект
 	List<T>*	_next;				// Указатель на следующий элемент
