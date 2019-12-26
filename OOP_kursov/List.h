@@ -8,7 +8,8 @@ public:
 	int				type();
 	const char*		name();
 public:
-				List();				// Конструктор списка
+				List();				// Конструктор пустого списка
+				List(unsigned int type_hash);// Конструктор пустого списка с определением типа хранимых элементов
 				List(T*);			// Конструктор списка с данными
 				~List();			// Деструктор списка
 	void		append(T* elem);	// Добавление элемента в конец списка
@@ -16,13 +17,17 @@ public:
 	int			len();				// Длина списка
 	List<T>*	get_elem(const int index); // Получить index-овый элемент списка
 	List<T>*	operator[](const int index);
+
+	T*			get_obj();
+	unsigned int get_type(); // Получить хеш-сумму типа элементов, хранимых в списке
 //template < typename T>
 //friend 		std::ostream& operator<<(std::ostream& out, const List<T>& list); // Перегрузка << для вывода в std::cout
 //template < typename T>
 //friend 		std::istream& operator>>(std::istream& in, List<T>& list); // Перегрузка >> для ввода в std::cin
-public:
+private:
 	T*			_obj;				// Указатель на хранимый объект
 	List<T>*	_next;				// Указатель на следующий элемент
+	unsigned int _stored_items_type_hash; // Хэш-сумма типа элементов, хранимых в списке
 };
 
 template<typename T>
@@ -42,6 +47,14 @@ inline List<T>::List()
 {
 	_obj = nullptr;
 	_next = nullptr;
+}
+
+template<typename T>
+inline List<T>::List(unsigned int type_hash)
+{
+	_obj = nullptr;
+	_next = nullptr;
+	_stored_items_type_hash = type_hash;
 }
 
 template<typename T>
@@ -93,6 +106,8 @@ inline int List<T>::len()
 template<typename T>
 inline List<T>* List<T>::get_elem(const int index)
 {
+	if (!this)
+		return nullptr;
 	if (_obj == nullptr && _next) { // Такое работает только для головы списка и только если у неё есть _next
 		auto elem = _next;
 		auto _index = index;
@@ -134,6 +149,14 @@ inline List<T>* List<T>::operator[](const int index)
 	// Если следующего элемента нет
 	return nullptr;
 	*/
+}
+
+template<typename T>
+inline T* List<T>::get_obj()
+{
+	if (!this)
+		return nullptr;
+	return _obj;
 }
 
 template<typename T>
