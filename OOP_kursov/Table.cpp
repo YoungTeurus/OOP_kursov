@@ -9,6 +9,14 @@ Table::Table()
 
 bool Table::add_column(int id)
 {
+	std::string temp_name = "Column ";
+	temp_name += convertInt(num_of_columns);
+	return add_column(id, temp_name);
+}
+
+bool Table::add_column(int id, std::string name)
+{
+	list_of_names.append(new std::string(name));
 	if (id == 0) {
 		list_of_lists->append(new List<BaseObject>(new List<TYPE_0>(typeid(TYPE_0).hash_code()))); // Создание столбика int-ов
 	}
@@ -94,6 +102,7 @@ void Table::beauty_print()
 
 	// Печатаем по столбику
 	List < std::vector < std::string >> strings_;
+	std::vector<int> max_lens;
 	for (int col = 0; col < num_of_columns; col++) {
 		std::vector<std::string>* col_strings = new std::vector<std::string>;
 		
@@ -110,6 +119,12 @@ void Table::beauty_print()
 				max_len = len_of_current_str;
 			}
 		}
+		// Учитываем название столбика при подсчёте длины
+		auto len_of_name = (*list_of_names.get_elem(col)->get_obj()).length() + 2;
+		if (len_of_name > max_len) {
+			max_len = len_of_name;
+		}
+		max_lens.push_back(max_len);
 		// Теперь знаем максимальную длину строки в столбце
 		for (int row = 0; row < num_of_rows; row++) {
 			auto len_of_current_str = (*col_strings)[row].length();
@@ -120,10 +135,30 @@ void Table::beauty_print()
 		}
 		strings_.append(col_strings);
 	}
-
+	// Вывод навзаний столбиков
+	for (int col = 0; col < num_of_columns; col++) {
+		auto name_len = (*list_of_names.get_elem(col)->get_obj()).length() + 2;
+		if (name_len < max_lens[col]) {
+			for (int i = 0; i < max_lens[col] - name_len; i++)
+				std::cout << " ";
+		}
+		std::cout << *list_of_names.get_elem(col)->get_obj() << "| ";
+	}
+	std::cout << "\n";
+	for (int col = 0; col < num_of_columns; col++) {
+		for (int i = 0; i < max_lens[col]; i++)
+			std::cout << "-";
+	}
+	std::cout << "\n";
+	// Вывод столбцов
 	for (int row = 0; row < num_of_rows; row++) {
 		for (int col = 0; col < num_of_columns; col++) {
 			std::cout << (*strings_.get_elem(col)->get_obj())[row];
+		}
+		std::cout << "\n";
+		for (int col = 0; col < num_of_columns; col++) {
+			for (int i = 0; i < max_lens[col]; i++)
+				std::cout << "-";
 		}
 		std::cout << "\n";
 	}

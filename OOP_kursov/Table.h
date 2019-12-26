@@ -12,6 +12,7 @@ class Table
 public:
 											Table();					// Конструктор пустой таблицы
 				bool 						add_column(int id);			// Добавляет столбик с выбранным типом хранимых элементов
+				bool 						add_column(int id, std::string name);// Добавляет столбик с выбранным типом хранимых элементов
 template<typename T>
 				bool						append_in_column(T* element, int num_of_column);// Добавляет ячейку в выбранный столбик
 				std::string					get_cell(int col, int row);	// Возвращает строковую запись ячейки для вывода на экран
@@ -32,6 +33,7 @@ template<typename T>
 					return ss.str();
 				}
 private:
+				List<std::string>			list_of_names;				// Список названий столбцов
 				List<BaseObject>*			list_of_lists;				// Голова самого главного списка
 				int							num_of_columns;				// Количество столбцов (для вывода)
 };

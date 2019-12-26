@@ -101,13 +101,15 @@ int main() {
 
 	Table tbl;
 
-	tbl.add_column(0);
-	tbl.add_column(1);
-	tbl.add_column(2);
+	tbl.add_column(0, "Index");
+	tbl.add_column(0, "Int");
+	tbl.add_column(1, "Double");
+	tbl.add_column(2, "Std::string");
 	for (int i = 0; i < 10; i++) {
-		tbl.append_in_column(new int(rand()%10001 - 5000), 0); // Запись числа "i" в первый столбик
-		tbl.append_in_column(new double(rand() % 10001 - 5000 + 3.5), 1);
-		tbl.append_in_column(new std::string("Wow it is " + Table::convertInt(i) + " element!"), 2);
+		tbl.append_in_column(new int(i),0);
+		tbl.append_in_column(new int(rand()%10001 - 5000), 1); // Запись числа "i" в первый столбик
+		tbl.append_in_column(new double(rand() % 10001 - 5000 + 3.5), 2);
+		tbl.append_in_column(new std::string("Wow it is " + Table::convertInt(i) + " element!"), 3);
 	}
 	tbl.beauty_print();
 
