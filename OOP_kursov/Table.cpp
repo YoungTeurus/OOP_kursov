@@ -1,5 +1,6 @@
 ﻿#include "Table.h"
-#include <vector>
+#include <vector> // Вспомогательный vector используется лишь в выводе. Без него можно обойтись, но так удобнее.
+#include <fstream>
 
 Table::Table()
 {
@@ -206,39 +207,12 @@ void Table::beauty_print()
 
 bool Table::edit_cell(int col, int row, int type, void* new_obj)
 {
-	
 	//0) Определить тип и длинну столбца
 	//1) Получить ячейку
 	// 1.1) Если требуемой ячейки нет - создать новую
 	// 1.2) Если перед требуемой ячейкой нет других - создать новые, пустые
 	//2) Получить новое значение _obj
 	//3) Заменить _obj
-
-	//0)
-	/*
-	auto hash_of_type_of_element = ((List<int>*)get_column(col)->get_obj())->get_type();
-	if (hash_of_type_of_element == 0) { // Если такой колонки нет
-		return false;
-	}
-	if (hash_of_type_of_element == typeid(TYPE_0).hash_code()) {
-		auto list_to_work = (List<TYPE_0>*)get_column(col)->get_obj();
-		auto len_of_column = list_to_work->len();
-		while (len_of_column < row + 1) { // Если текущей ячейки нет
-			list_to_work->append(new TYPE_0()); // Заполняем место до ячейки пустыми элементами
-			len_of_column++;
-		}
-		auto elem_to_work = list_to_work->get_elem(row); // Получаем элемент, с кот-ым будем работать
-		auto new_obj = new TYPE_0();
-		// Получение user_input-а
-		elem_to_work->set_obj(new_obj);
-	}
-	else if (hash_of_type_of_element == typeid(TYPE_1).hash_code()) {
-		
-	}
-	else if (hash_of_type_of_element == typeid(TYPE_2).hash_code()) {
-		
-	}
-	*/
 	switch (type)
 	{
 		case 0: {
@@ -316,4 +290,71 @@ void Table::empty_cell(int col, int row)
 	else if (hash_of_type_of_element_to_clear == typeid(TYPE_2).hash_code()) {
 		((List<TYPE_2>*)cell_to_empty)->set_obj(nullptr);
 	}
+}
+
+std::string* Table::get_string()
+{
+	auto string_to_return = new std::string();
+	*string_to_return += ">"; // Символ начала вывода таблицы
+
+	auto num_of_col = list_of_lists->len();
+	for (int col = 0; col < num_of_col; col++) {
+		*string_to_return += *(list_of_names.get_elem(col)->get_obj()); // Название столбца
+		*string_to_return += "|"; // Разделитель
+		auto hash_of_type_of_element_to_write = ((List<int>*)get_column(col)->get_obj())->get_type(); // Тип записываемого элемента
+		if (hash_of_type_of_element_to_write == typeid(TYPE_0).hash_code()) {
+			auto list_to_work = (List<TYPE_0>*)get_column(col)->get_obj();
+			*string_to_return += "0"; // Запись типа
+			*string_to_return += "|";
+			auto len_of_list = list_to_work->len();
+			for (int i = 0; i < len_of_list; i++) {
+				// Запись элементов
+				auto element_to_add = *list_to_work->get_elem(i)->get_obj();
+				*string_to_return += convertInt(element_to_add);
+				// Добавление разделителя
+				*string_to_return += "|";
+			}
+			*string_to_return += "#"; // Разделитель столбцов
+		}
+		else if (hash_of_type_of_element_to_write == typeid(TYPE_1).hash_code()) {
+			auto list_to_work = (List<TYPE_1>*)get_column(col)->get_obj();
+			*string_to_return += "1"; // Запись типа
+			*string_to_return += "|";
+			auto len_of_list = list_to_work->len();
+			for (int i = 0; i < len_of_list; i++) {
+				// Запись элементов
+				auto element_to_add = *list_to_work->get_elem(i)->get_obj();
+				*string_to_return += convertDouble(element_to_add);
+				// Добавление разделителя
+				*string_to_return += "|";
+			}
+			*string_to_return += "#"; // Разделитель столбцов
+		}
+		else if (hash_of_type_of_element_to_write == typeid(TYPE_2).hash_code()) {
+			auto list_to_work = (List<TYPE_2>*)get_column(col)->get_obj();
+			*string_to_return += "2"; // Запись типа
+			*string_to_return += "|";
+			auto len_of_list = list_to_work->len();
+			for (int i = 0; i < len_of_list; i++) {
+				// Запись элементов
+				auto element_to_add = *list_to_work->get_elem(i)->get_obj();
+				*string_to_return += element_to_add;
+				// Добавление разделителя
+				*string_to_return += "|";
+			}
+			*string_to_return += "#"; // Разделитель столбцов
+		}
+	}
+	*string_to_return += "<";
+	return string_to_return;
+}
+
+void Table::write_into_txt_file()
+{
+	std::ofstream output_file;
+	output_file.open("out.txt", std::ios::out);
+	auto string_to_write = get_string();
+	output_file << *string_to_write;
+	delete string_to_write;
+	output_file.close();
 }

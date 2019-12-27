@@ -9,23 +9,27 @@
 
 class Table
 {
-				List<std::string>			list_of_names;				// Список названий столбцов
-				List<BaseObject>*			list_of_lists;				// Голова самого главного списка
-				int							num_of_columns;				// Количество столбцов (для вывода)
+				List<std::string>			list_of_names;					// Список названий столбцов
+				List<BaseObject>*			list_of_lists;					// Голова самого главного списка
+				int							num_of_columns;					// Количество столбцов (для вывода)
 public:
-											Table();					// Конструктор пустой таблицы
-				bool 						add_column(int id);			// Добавляет столбик с выбранным типом хранимых элементов
+											Table();						// Конструктор пустой таблицы
+				bool 						add_column(int id);				// Добавляет столбик с выбранным типом хранимых элементов
 				bool 						add_column(int id, std::string name);// Добавляет столбик с выбранным типом хранимых элементов
 template<typename T> bool					append_in_column(T* element, int num_of_column);// Добавляет ячейку в выбранный столбик
-				bool						get_in_column(int num_of_column); // Добавляет ячейку в выбранный столбик, запрашивая ввод у пользователя
-				void						beauty_print();				// Красивый вывод таблицы в консоль
+				bool						get_in_column(int num_of_column);// Добавляет ячейку в выбранный столбик, запрашивая ввод у пользователя
+				void						beauty_print();					// Красивый вывод таблицы в консоль
 				bool						edit_cell(int col, int row, int type, void* new_obj);// Изменение значения ячейки
-				void						delete_column(int col);		// Удаление столбца
-				void						delete_cell(int col, int row);// Удаление строки
+				void						delete_column(int col);			// Удаление столбца
+				void						delete_cell(int col, int row);	// Удаление строки
 				
-				void						empty_cell(int col, int row);// Очищение ячейки,т.е. удаление его _obj
+				void						empty_cell(int col, int row);	// Очищение ячейки,т.е. удаление его _obj
 
-				//void						print();					// Вывод таблицы в консоль
+				std::string*				get_string();					// Возвращает строку - линейную запись таблицы
+				void						write_into_txt_file();			// Запись в текстовый файл
+				void						load_from_txt_file();			// Загрузка из текстового файла
+
+				//void						print();						// Вывод таблицы в консоль
 				// Вспомогательные функции перевода чисел в std::string
 				static		std::string		convertInt(int number)
 				{
