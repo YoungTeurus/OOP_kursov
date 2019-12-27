@@ -1,33 +1,33 @@
-#pragma once
+п»ї#pragma once
 #include <iostream>
 #include "BaseObject.h"
 template<typename T>
 class List : public BaseObject {
 public:
-	// Методы для базового класса
+	// РњРµС‚РѕРґС‹ РґР»СЏ Р±Р°Р·РѕРІРѕРіРѕ РєР»Р°СЃСЃР°
 	size_t			type();
 	const char*		name();
-	size_t			get_type();		// Получить хеш-сумму типа элементов, хранимых в списке
+	size_t			get_type();		// РџРѕР»СѓС‡РёС‚СЊ С…РµС€-СЃСѓРјРјСѓ С‚РёРїР° СЌР»РµРјРµРЅС‚РѕРІ, С…СЂР°РЅРёРјС‹С… РІ СЃРїРёСЃРєРµ
 public:
-				List();				// Конструктор пустого списка
-				List(size_t type_hash);// Конструктор пустого списка с определением типа хранимых элементов
-				List(T*);			// Конструктор списка с данными
-				~List();			// Деструктор списка
-	void		append(T* elem);	// Добавление элемента в конец списка
-	void		append(List<T>* list); // Добавление списка в конец списка
-	int			len();				// Длина списка
+				List();				// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСѓСЃС‚РѕРіРѕ СЃРїРёСЃРєР°
+				List(size_t type_hash);// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСѓСЃС‚РѕРіРѕ СЃРїРёСЃРєР° СЃ РѕРїСЂРµРґРµР»РµРЅРёРµРј С‚РёРїР° С…СЂР°РЅРёРјС‹С… СЌР»РµРјРµРЅС‚РѕРІ
+				List(T*);			// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃРїРёСЃРєР° СЃ РґР°РЅРЅС‹РјРё
+				~List();			// Р”РµСЃС‚СЂСѓРєС‚РѕСЂ СЃРїРёСЃРєР°
+	void		append(T* elem);	// Р”РѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
+	void		append(List<T>* list); // Р”РѕР±Р°РІР»РµРЅРёРµ СЃРїРёСЃРєР° РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
+	int			len();				// Р”Р»РёРЅР° СЃРїРёСЃРєР°
 
-	List<T>*	get_elem(const int index); // Получить index-овый элемент списка
-	T*			get_obj();			// Получить _obj элемента списка
+	List<T>*	get_elem(const int index); // РџРѕР»СѓС‡РёС‚СЊ index-РѕРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
+	T*			get_obj();			// РџРѕР»СѓС‡РёС‚СЊ _obj СЌР»РµРјРµРЅС‚Р° СЃРїРёСЃРєР°
 
-	void		set_obj(T* new_obj); // Установить новый _obj для элемента списка
+	void		set_obj(T* new_obj); // РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РЅРѕРІС‹Р№ _obj РґР»СЏ СЌР»РµРјРµРЅС‚Р° СЃРїРёСЃРєР°
 
-	bool		remove_elem(const int index); //Удаляет index-овый элемент списка
+	bool		remove_elem(const int index); //РЈРґР°Р»СЏРµС‚ index-РѕРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
 	
 private:
-	T*			_obj;				// Указатель на хранимый объект
-	List<T>*	_next;				// Указатель на следующий элемент
-	size_t		_stored_items_type_hash = 0; // Хэш-сумма типа элементов, хранимых в списке
+	T*			_obj;				// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° С…СЂР°РЅРёРјС‹Р№ РѕР±СЉРµРєС‚
+	List<T>*	_next;				// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
+	size_t		_stored_items_type_hash = 0; // РҐСЌС€-СЃСѓРјРјР° С‚РёРїР° СЌР»РµРјРµРЅС‚РѕРІ, С…СЂР°РЅРёРјС‹С… РІ СЃРїРёСЃРєРµ
 };
 
 template<typename T>
@@ -67,7 +67,7 @@ inline List<T>::List(T* obj)
 template<typename T>
 inline List<T>::~List()
 {
-	// Если удаляется НЕ голова списка, то нельзя удалять _next
+	// Р•СЃР»Рё СѓРґР°Р»СЏРµС‚СЃСЏ РќР• РіРѕР»РѕРІР° СЃРїРёСЃРєР°, С‚Рѕ РЅРµР»СЊР·СЏ СѓРґР°Р»СЏС‚СЊ _next
 	if(!_obj)
 		delete _next;
 	delete _obj;
@@ -76,7 +76,7 @@ inline List<T>::~List()
 template<typename T>
 inline void List<T>::append(T* elem)
 {
-	if (!_next) { // Если ещё нет следующего элемента
+	if (!_next) { // Р•СЃР»Рё РµС‰С‘ РЅРµС‚ СЃР»РµРґСѓСЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
 		_next = new List(elem);
 		return;
 	}
@@ -86,7 +86,7 @@ inline void List<T>::append(T* elem)
 template<typename T>
 inline void List<T>::append(List<T>* list)
 {
-	if (!_next) { // Если ещё нет следующего элемента
+	if (!_next) { // Р•СЃР»Рё РµС‰С‘ РЅРµС‚ СЃР»РµРґСѓСЋС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р°
 		_next = list;
 		return;
 	}
@@ -110,7 +110,7 @@ inline List<T>* List<T>::get_elem(const int index)
 {
 	if (!this)
 		return nullptr;
-	if (_obj == nullptr && _next) { // Такое работает только для головы списка и только если у неё есть _next
+	if (_obj == nullptr && _next) { // РўР°РєРѕРµ СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РґР»СЏ РіРѕР»РѕРІС‹ СЃРїРёСЃРєР° Рё С‚РѕР»СЊРєРѕ РµСЃР»Рё Сѓ РЅРµС‘ РµСЃС‚СЊ _next
 		auto elem = _next;
 		auto _index = index;
 		while (elem && _index > 0) {
@@ -119,7 +119,7 @@ inline List<T>* List<T>::get_elem(const int index)
 		}
 		return elem;
 	}
-	//else if (_next) { // Если не от головы, и есть _next
+	//else if (_next) { // Р•СЃР»Рё РЅРµ РѕС‚ РіРѕР»РѕРІС‹, Рё РµСЃС‚СЊ _next
 
 	//}
 	return nullptr;
@@ -143,16 +143,16 @@ inline void List<T>::set_obj(T* new_obj)
 template<typename T>
 inline bool List<T>::remove_elem(const int index)
 {
-	auto elem_to_delete = get_elem(index); // Получаем указатель на тот элемент, который необходимо удалить
-	if (elem_to_delete) { // Если этот элемент найден
-		if (index > 0) { // Если удаляем НЕ первый элемент списка
-			auto elem_prev_to_delete = get_elem(index - 1); // Получаем указатель на тот элемент, который стоит перед тем, который необходимо удалить
-			elem_prev_to_delete->_next = elem_to_delete->_next; // Прокидываем указатель на _next
-			delete elem_to_delete;								// Удаляем элемент
+	auto elem_to_delete = get_elem(index); // РџРѕР»СѓС‡Р°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С‚РѕС‚ СЌР»РµРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ РЅРµРѕР±С…РѕРґРёРјРѕ СѓРґР°Р»РёС‚СЊ
+	if (elem_to_delete) { // Р•СЃР»Рё СЌС‚РѕС‚ СЌР»РµРјРµРЅС‚ РЅР°Р№РґРµРЅ
+		if (index > 0) { // Р•СЃР»Рё СѓРґР°Р»СЏРµРј РќР• РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
+			auto elem_prev_to_delete = get_elem(index - 1); // РџРѕР»СѓС‡Р°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С‚РѕС‚ СЌР»РµРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ СЃС‚РѕРёС‚ РїРµСЂРµРґ С‚РµРј, РєРѕС‚РѕСЂС‹Р№ РЅРµРѕР±С…РѕРґРёРјРѕ СѓРґР°Р»РёС‚СЊ
+			elem_prev_to_delete->_next = elem_to_delete->_next; // РџСЂРѕРєРёРґС‹РІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° _next
+			delete elem_to_delete;								// РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚
 		}
-		else { // Если удаляем первый элемент списка
-			_next = elem_to_delete->_next;	// Прокидываем указатель на _next
-			delete elem_to_delete;			// Удаляем элемент
+		else { // Р•СЃР»Рё СѓРґР°Р»СЏРµРј РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
+			_next = elem_to_delete->_next;	// РџСЂРѕРєРёРґС‹РІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° _next
+			delete elem_to_delete;			// РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚
 		}
 		return true;
 	}
@@ -162,6 +162,8 @@ inline bool List<T>::remove_elem(const int index)
 template<typename T>
 inline size_t List<T>::get_type()
 {
+	if (!this)
+		return 0;
 	return _stored_items_type_hash;
 }
 
@@ -175,6 +177,6 @@ std::ostream& operator<<(std::ostream& out, List<T>& list)
 		out << *list[i] << "->";
 	}
 	if (len_of_list > 0)
-		out << *list[len_of_list - 1]; // Вывод последнего элемента без "->"
+		out << *list[len_of_list - 1]; // Р’С‹РІРѕРґ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° Р±РµР· "->"
 	return out;
 }

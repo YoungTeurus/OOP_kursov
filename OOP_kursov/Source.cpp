@@ -1,4 +1,4 @@
-#include "Table.h"
+п»ї#include "Table.h"
 #include <iostream>
 #include <stdlib.h>
 
@@ -19,13 +19,13 @@ std::string convertDouble(double number)
 
 bool add_column(List<BaseObject>* list, int id) {
 	if (id == 0) {
-		list->append(new List<BaseObject>(new List<TYPE_0>(typeid(TYPE_0).hash_code()))); // Создание столбика int-ов
+		list->append(new List<BaseObject>(new List<TYPE_0>(typeid(TYPE_0).hash_code()))); // РЎРѕР·РґР°РЅРёРµ СЃС‚РѕР»Р±РёРєР° int-РѕРІ
 	}
 	else if (id == 1) {
-		list->append(new List<BaseObject>(new List<TYPE_1>(typeid(TYPE_1).hash_code()))); // Создание столбика double-ов
+		list->append(new List<BaseObject>(new List<TYPE_1>(typeid(TYPE_1).hash_code()))); // РЎРѕР·РґР°РЅРёРµ СЃС‚РѕР»Р±РёРєР° double-РѕРІ
 	}
 	else if (id == 2) {
-		list->append(new List<BaseObject>(new List<TYPE_2>(typeid(TYPE_2).hash_code()))); // Создание столбика string-ов
+		list->append(new List<BaseObject>(new List<TYPE_2>(typeid(TYPE_2).hash_code()))); // РЎРѕР·РґР°РЅРёРµ СЃС‚РѕР»Р±РёРєР° string-РѕРІ
 	}
 	else {
 		std::cout << "The type of created column is not defined!" << "\n";
@@ -37,10 +37,10 @@ bool add_column(List<BaseObject>* list, int id) {
 template<typename T>
 bool append_in_column(List<BaseObject>* list, T* element, int num_of_column) {
 
-	auto always_get = list->get_elem(num_of_column)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
+	auto always_get = list->get_elem(num_of_column)->get_obj(); // Р’СЃРµРіРґР° РїС‹С‚Р°РµРјСЃСЏ РЅР°Р№С‚Рё РЅСѓР¶РЅС‹Р№ СЃС‚РѕР»Р±РёРє. Р•СЃР»Рё РµРіРѕ РЅРµС‚ - РїРѕР»СѓС‡РёРј nullptr
 	if (always_get) {
-		if (always_get->get_type() == typeid(*element).hash_code()) { // Если тип храним объектов совпадает с передаваемым
-			((List<T>*)always_get)->append(element); // Запись в этот столбик
+		if (always_get->get_type() == typeid(*element).hash_code()) { // Р•СЃР»Рё С‚РёРї С…СЂР°РЅРёРј РѕР±СЉРµРєС‚РѕРІ СЃРѕРІРїР°РґР°РµС‚ СЃ РїРµСЂРµРґР°РІР°РµРјС‹Рј
+			((List<T>*)always_get)->append(element); // Р—Р°РїРёСЃСЊ РІ СЌС‚РѕС‚ СЃС‚РѕР»Р±РёРє
 			return true;
 		}
 	}
@@ -49,14 +49,14 @@ bool append_in_column(List<BaseObject>* list, T* element, int num_of_column) {
 }
 
 std::string get_cell_to_string(List<BaseObject>* list, int col, int row) {
-	auto type = typeid(int).hash_code(); // Определяется из типа создаваемой колонки
+	auto type = typeid(int).hash_code(); // РћРїСЂРµРґРµР»СЏРµС‚СЃСЏ РёР· С‚РёРїР° СЃРѕР·РґР°РІР°РµРјРѕР№ РєРѕР»РѕРЅРєРё
 
 	std::string result;
-	bool was_result_get = false; // Был ли получен результат?
+	bool was_result_get = false; // Р‘С‹Р» Р»Рё РїРѕР»СѓС‡РµРЅ СЂРµР·СѓР»СЊС‚Р°С‚?
 
-	auto always_get = list->get_elem(col)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
+	auto always_get = list->get_elem(col)->get_obj(); // Р’СЃРµРіРґР° РїС‹С‚Р°РµРјСЃСЏ РЅР°Р№С‚Рё РЅСѓР¶РЅС‹Р№ СЃС‚РѕР»Р±РёРє. Р•СЃР»Рё РµРіРѕ РЅРµС‚ - РїРѕР»СѓС‡РёРј nullptr
 
-	if (always_get) { // Не нужно ничего проверять, если такого столбика нет
+	if (always_get) { // РќРµ РЅСѓР¶РЅРѕ РЅРёС‡РµРіРѕ РїСЂРѕРІРµСЂСЏС‚СЊ, РµСЃР»Рё С‚Р°РєРѕРіРѕ СЃС‚РѕР»Р±РёРєР° РЅРµС‚
 		if (always_get->get_type() == typeid(TYPE_0).hash_code()) {
 			auto a = (((List<TYPE_0>*)always_get)->get_elem(row)->get_obj());
 			if (a) {
@@ -102,84 +102,140 @@ int main() {
 
 	Table tbl;
 
-	tbl.add_column(0, "Index");
-	tbl.add_column(0, "Int");
-	tbl.add_column(1, "Double");
-	tbl.add_column(2, "Std::string");
+	tbl.add_column(0, "Column 0: int");
+	tbl.add_column(0, "Column 1: int");
+	tbl.add_column(1, "Column 2: double");
+	tbl.add_column(2, "Column 3: std::string");
 	for (int i = 0; i < 5; i++) {
 		tbl.append_in_column(new int(i), 0);
-		tbl.append_in_column(new int(rand() % 10001 - 5000), 1); // Запись числа "i" в первый столбик
+		tbl.append_in_column(new int(rand() % 10001 - 5000), 1); // Р—Р°РїРёСЃСЊ С‡РёСЃР»Р° "i" РІ РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РёРє
 		tbl.append_in_column(new double(rand() % 10001 - 5000 + 3.5), 2);
 		tbl.append_in_column(new std::string("Wow it is " + Table::convertInt(i) + " element!"), 3);
 	}
-	tbl.beauty_print();
+	//tbl.beauty_print();
 
 	//tbl.delete_column(0);
 	//tbl.delete_cell(0, 2);
-	tbl.empty_cell(0, 2);
+	//tbl.empty_cell(0, 2);
 
-	tbl.beauty_print();
+	//tbl.beauty_print();
 
-	// main_цикл
-//	{
-//	while (true) {
-//		system("cls");
-//		tbl.beauty_print();
-//		cout << "What to do?\n";
-//		cout << "1. Add new column\n";
-//		cout << "2. Add new cell in column\n";
-//		cout << "3. Edit cell in column\n";
-//		int choise;
-//		cin >> choise;
-//		switch (choise)
-//		{
-//		case 1: { // Добавление столбца
-//			cout << "Enter the type of new column:\n";
-//			cout << "1. int\n";
-//			cout << "2. double\n";
-//			cout << "3. std::string\n";
-//			int choise;
-//			cin >> choise;
-//			cout << "Enter the name of new column:\n";
-//			std::string name;
-//			Table::inputString_from_cin(&name);
-//			if (choise >= 1 && choise <= 3) {
-//				tbl.add_column(choise - 1, name);
-//			}
-//			else
-//				cout << "You selected wrong type! Try again.\n";
-//			break;
-//		}
-//		case 2: {
-//			cout << "Write the number of column to add cell: ";
-//			int column;
-//			cin >> column;
-//			tbl.get_in_column(column);
-//			break;
-//		}
-//		case 3: {
-//			cout << "Write the number of column to edit cell: ";
-//			int column;
-//			cin >> column;
-//			cout << "Write the number of row to edit cell: ";
-//			int row;
-//			cin >> row;
-//		}
-//		default:
-//			break;
-//		}
-//	}
-//}
+	// main_С†РёРєР»
+	{
+	while (true) {
+		system("cls");
+		tbl.beauty_print();
+		cout << "What to do?\n";
+		cout << "1. Add new column\n";
+		cout << "2. Add new cell in column\n";
+		cout << "3. Edit cell in column\n";
+		cout << "4. Clear cell\n";
+		cout << "5. Delete cell\n";
+		cout << "6. Delete column\n";
+		int choise;
+		cin >> choise;
+		switch (choise)
+		{
+		// Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚РѕР»Р±С†Р°
+		case 1: { 
+			cout << "Enter the type of new column:\n";
+			cout << "1. int\n";
+			cout << "2. double\n";
+			cout << "3. std::string\n";
+			int choise;
+			cin >> choise;
+			cout << "Enter the name of new column:\n";
+			std::string name;
+			Table::inputString_from_cin(&name);
+			if (choise >= 1 && choise <= 3) {
+				tbl.add_column(choise - 1, name);
+			}
+			else
+				cout << "You selected wrong type! Try again.\n";
+			break;
+		}
+		// Р”РѕР±Р°РІР»РµРЅРёРµ СЏС‡РµР№РєРё РІ СЃС‚РѕР»Р±РµС†
+		case 2: {
+			cout << "Write the number of column to add cell: ";
+			int column;
+			cin >> column;
+			tbl.get_in_column(column);
+			break;
+		}
+		// Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЏС‡РµР№РєРё
+		case 3: {
+			cout << "Write the number of column to edit cell: ";
+			int column;
+			cin >> column;
+			cout << "Write the number of row to edit cell: ";
+			int row;
+			cin >> row;
+
+			// РЈР·РЅР°С‘Рј С‚РёРї СЃС‚РѕР»Р±С†Р°
+			auto hash_of_type_of_element = ((List<int>*)tbl.get_column(column)->get_obj())->get_type();
+			if (hash_of_type_of_element == typeid(TYPE_0).hash_code()) {
+				TYPE_0* a = new TYPE_0();
+				std::cin.clear();
+				std::cin >> *a;
+				tbl.edit_cell(column, row, 0, a);
+			}
+			else if (hash_of_type_of_element == typeid(TYPE_1).hash_code()) {
+				TYPE_1* a = new TYPE_1();
+				std::cin.clear();
+				std::cin >> *a;
+				tbl.edit_cell(column, row, 1, a);
+			}
+			else if (hash_of_type_of_element == typeid(TYPE_2).hash_code()) {
+				TYPE_2* a = new TYPE_2();
+				Table::inputString_from_cin(a);
+				tbl.edit_cell(column, row, 2, a);
+			}
+			break;
+		}
+		// РћС‡РёСЃС‚РєР° СЏС‡РµР№РєРё
+		case 4: {
+			cout << "Write the number of column to clear cell: ";
+			int column;
+			cin >> column;
+			cout << "Write the number of row to clear cell: ";
+			int row;
+			cin >> row;
+			tbl.empty_cell(column, row);
+			break;
+		}
+		// РЈРґР°Р»РµРЅРёРµ СЏС‡РµР№РєРё
+		case 5: {
+			cout << "Write the number of column to delete cell: ";
+			int column;
+			cin >> column;
+			cout << "Write the number of row to delete cell: ";
+			int row;
+			cin >> row;
+			tbl.delete_cell(column, row);
+			break;
+		}
+		case 6: {
+			cout << "Write the number of column to delete: ";
+			int column;
+			cin >> column;
+			tbl.delete_column(column);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
 
 	/*
 	List<BaseObject> test2_list;
 
-	add_column(&test2_list, 0); // Столбик 0 - int-ы
-	add_column(&test2_list, 1); // Столбик 1 - double-ы
-	add_column(&test2_list, 2); // Столбик 2 - std::string-и
+	add_column(&test2_list, 0); // РЎС‚РѕР»Р±РёРє 0 - int-С‹
+	add_column(&test2_list, 1); // РЎС‚РѕР»Р±РёРє 1 - double-С‹
+	add_column(&test2_list, 2); // РЎС‚РѕР»Р±РёРє 2 - std::string-Рё
 
 	for (int i = 0; i < 10; i++) {
-		append_in_column(&test2_list, new int(i), 0); // Запись числа "i" в первый столбик
+		append_in_column(&test2_list, new int(i), 0); // Р—Р°РїРёСЃСЊ С‡РёСЃР»Р° "i" РІ РїРµСЂРІС‹Р№ СЃС‚РѕР»Р±РёРє
 		append_in_column(&test2_list, new double(i+3.5), 1);
 		append_in_column(&test2_list, new std::string("Wow it is " + convertInt(i)), 2);
 	}
@@ -187,32 +243,32 @@ int main() {
 	for (int i = 0; i < 10; i++) {
 		cout << get_cell_to_string(&test2_list, 0, i) <<"  "
 			 << get_cell_to_string(&test2_list, 1, i) <<"  " 
-			 << get_cell_to_string(&test2_list, 2, i) << "\n"; // Вывод первой ячейки первого столбика
+			 << get_cell_to_string(&test2_list, 2, i) << "\n"; // Р’С‹РІРѕРґ РїРµСЂРІРѕР№ СЏС‡РµР№РєРё РїРµСЂРІРѕРіРѕ СЃС‚РѕР»Р±РёРєР°
 	}
 	*/
 	
-	// Код для объяснений
+	// РљРѕРґ РґР»СЏ РѕР±СЉСЏСЃРЅРµРЅРёР№
 	{
-		// Записываем "5"
+		// Р—Р°РїРёСЃС‹РІР°РµРј "5"
 		/*
 		{
 			auto step_0 = test2_list.get_elem(0);
-			auto step_1 = step_0->get_obj();			// Достали указатель на список int-ов.
-			auto step_2 = (List<int>*)step_1;	// Привели указатель к нужному виду.
-			step_2->append(added_int);			// Записываем "5" в данный список
+			auto step_1 = step_0->get_obj();			// Р”РѕСЃС‚Р°Р»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃРїРёСЃРѕРє int-РѕРІ.
+			auto step_2 = (List<int>*)step_1;	// РџСЂРёРІРµР»Рё СѓРєР°Р·Р°С‚РµР»СЊ Рє РЅСѓР¶РЅРѕРјСѓ РІРёРґСѓ.
+			step_2->append(added_int);			// Р—Р°РїРёСЃС‹РІР°РµРј "5" РІ РґР°РЅРЅС‹Р№ СЃРїРёСЃРѕРє
 		}
 		*/
 
-		// Получаем "5"
+		// РџРѕР»СѓС‡Р°РµРј "5"
 		/*
 		{
-			auto __step_1 = test2_list.get_elem(0); // Получили указатель на первый элемент списка столбцов
-			auto __step_2 = __step_1->get_obj();			  // Достали указатель на список int-ов.
-			auto __step_3 = (List<int>*)__step_2;	  // Привели указатель к нужному виду.
-			auto __step_4 = __step_3->get_elem(0);  // Получили указатель на первый элемент списка "int"-ов
-			auto __step_5 = *(__step_4->get_obj());		  // Получили объект, хранимый в первом объекте.
+			auto __step_1 = test2_list.get_elem(0); // РџРѕР»СѓС‡РёР»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° СЃС‚РѕР»Р±С†РѕРІ
+			auto __step_2 = __step_1->get_obj();			  // Р”РѕСЃС‚Р°Р»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃРїРёСЃРѕРє int-РѕРІ.
+			auto __step_3 = (List<int>*)__step_2;	  // РџСЂРёРІРµР»Рё СѓРєР°Р·Р°С‚РµР»СЊ Рє РЅСѓР¶РЅРѕРјСѓ РІРёРґСѓ.
+			auto __step_4 = __step_3->get_elem(0);  // РџРѕР»СѓС‡РёР»Рё СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° "int"-РѕРІ
+			auto __step_5 = *(__step_4->get_obj());		  // РџРѕР»СѓС‡РёР»Рё РѕР±СЉРµРєС‚, С…СЂР°РЅРёРјС‹Р№ РІ РїРµСЂРІРѕРј РѕР±СЉРµРєС‚Рµ.
 
-			cout << __step_5 << "\n";; // Выводим "5"
+			cout << __step_5 << "\n";; // Р’С‹РІРѕРґРёРј "5"
 		}
 		*/
 	}

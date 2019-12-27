@@ -1,4 +1,4 @@
-#include "Table.h"
+﻿#include "Table.h"
 #include <vector>
 
 Table::Table()
@@ -18,13 +18,13 @@ bool Table::add_column(int id, std::string name)
 {
 	list_of_names.append(new std::string(name));
 	if (id == 0) {
-		list_of_lists->append(new List<BaseObject>(new List<TYPE_0>(typeid(TYPE_0).hash_code()))); // �������� �������� int-��
+		list_of_lists->append(new List<BaseObject>(new List<TYPE_0>(typeid(TYPE_0).hash_code()))); // Создание столбика int-ов
 	}
 	else if (id == 1) {
-		list_of_lists->append(new List<BaseObject>(new List<TYPE_1>(typeid(TYPE_1).hash_code()))); // �������� �������� double-��
+		list_of_lists->append(new List<BaseObject>(new List<TYPE_1>(typeid(TYPE_1).hash_code()))); // Создание столбика double-ов
 	}
 	else if (id == 2) {
-		list_of_lists->append(new List<BaseObject>(new List<TYPE_2>(typeid(TYPE_2).hash_code()))); // �������� �������� string-��
+		list_of_lists->append(new List<BaseObject>(new List<TYPE_2>(typeid(TYPE_2).hash_code()))); // Создание столбика string-ов
 	}
 	else {
 		std::cout << "The type of created column is not defined!" << "\n";
@@ -36,7 +36,7 @@ bool Table::add_column(int id, std::string name)
 
 bool Table::get_in_column(int num_of_column)
 {
-	auto always_get = list_of_lists->get_elem(num_of_column)->get_obj(); // ������ �������� ����� ������ �������. ���� ��� ��� - ������� nullptr
+	auto always_get = list_of_lists->get_elem(num_of_column)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
 	if (always_get) {
 		if (always_get->get_type() == typeid(TYPE_0).hash_code()) {
 			TYPE_0* a = new TYPE_0();
@@ -64,14 +64,14 @@ bool Table::get_in_column(int num_of_column)
 
 std::string Table::get_cell_to_string(int col, int row)
 {
-	auto type = typeid(int).hash_code(); // ������������ �� ���� ����������� �������
+	auto type = typeid(int).hash_code(); // Определяется из типа создаваемой колонки
 
 	std::string result;
-	bool was_result_get = false; // ��� �� ������� ���������?
+	bool was_result_get = false; // Был ли получен результат?
 
-	auto always_get = list_of_lists->get_elem(col)->get_obj(); // ������ �������� ����� ������ �������. ���� ��� ��� - ������� nullptr
+	auto always_get = list_of_lists->get_elem(col)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
 
-	if (always_get) { // �� ����� ������ ���������, ���� ������ �������� ���
+	if (always_get) { // Не нужно ничего проверять, если такого столбика нет
 		if (always_get->get_type() == typeid(TYPE_0).hash_code()) {
 			auto a = (((List<TYPE_0>*)always_get)->get_elem(row)->get_obj());
 			if (a) {
@@ -140,7 +140,7 @@ void Table::beauty_print()
 {
 	const int num_of_rows = 10;
 
-	// �������� �� ��������
+	// Печатаем по столбику
 	List < std::vector < std::string >> strings_;
 	std::vector<size_t> max_lens;
 	for (int col = 0; col < num_of_columns; col++) {
@@ -159,13 +159,13 @@ void Table::beauty_print()
 				max_len = len_of_current_str;
 			}
 		}
-		// ��������� �������� �������� ��� �������� �����
+		// Учитываем название столбика при подсчёте длины
 		auto len_of_name = (*list_of_names.get_elem(col)->get_obj()).length() + 2;
 		if (len_of_name > max_len) {
 			max_len = len_of_name;
 		}
 		max_lens.push_back(max_len);
-		// ������ ����� ������������ ����� ������ � �������
+		// Теперь знаем максимальную длину строки в столбце
 		for (int row = 0; row < num_of_rows; row++) {
 			auto len_of_current_str = (*col_strings)[row].length();
 			if (len_of_current_str < max_len) {
@@ -175,7 +175,7 @@ void Table::beauty_print()
 		}
 		strings_.append(col_strings);
 	}
-	// ����� �������� ���������
+	// Вывод навзаний столбиков
 	for (int col = 0; col < num_of_columns; col++) {
 		auto name_len = (*list_of_names.get_elem(col)->get_obj()).length() + 2;
 		if (name_len < max_lens[col]) {
@@ -190,7 +190,7 @@ void Table::beauty_print()
 			std::cout << "-";
 	}
 	std::cout << "\n";
-	// ����� ��������
+	// Вывод столбцов
 	for (int row = 0; row < num_of_rows; row++) {
 		for (int col = 0; col < num_of_columns; col++) {
 			std::cout << (*strings_.get_elem(col)->get_obj())[row];
@@ -204,10 +204,84 @@ void Table::beauty_print()
 	}
 }
 
+bool Table::edit_cell(int col, int row, int type, void* new_obj)
+{
+	
+	//0) Определить тип и длинну столбца
+	//1) Получить ячейку
+	// 1.1) Если требуемой ячейки нет - создать новую
+	// 1.2) Если перед требуемой ячейкой нет других - создать новые, пустые
+	//2) Получить новое значение _obj
+	//3) Заменить _obj
+
+	//0)
+	/*
+	auto hash_of_type_of_element = ((List<int>*)get_column(col)->get_obj())->get_type();
+	if (hash_of_type_of_element == 0) { // Если такой колонки нет
+		return false;
+	}
+	if (hash_of_type_of_element == typeid(TYPE_0).hash_code()) {
+		auto list_to_work = (List<TYPE_0>*)get_column(col)->get_obj();
+		auto len_of_column = list_to_work->len();
+		while (len_of_column < row + 1) { // Если текущей ячейки нет
+			list_to_work->append(new TYPE_0()); // Заполняем место до ячейки пустыми элементами
+			len_of_column++;
+		}
+		auto elem_to_work = list_to_work->get_elem(row); // Получаем элемент, с кот-ым будем работать
+		auto new_obj = new TYPE_0();
+		// Получение user_input-а
+		elem_to_work->set_obj(new_obj);
+	}
+	else if (hash_of_type_of_element == typeid(TYPE_1).hash_code()) {
+		
+	}
+	else if (hash_of_type_of_element == typeid(TYPE_2).hash_code()) {
+		
+	}
+	*/
+	switch (type)
+	{
+		case 0: {
+			auto list_to_work = (List<TYPE_0>*)get_column(col)->get_obj();
+			auto len_of_column = list_to_work->len();
+			while (len_of_column < row + 1) { // Если текущей ячейки нет
+				list_to_work->append(new TYPE_0()); // Заполняем место до ячейки пустыми элементами
+				len_of_column++;
+			}
+			auto elem_to_work = list_to_work->get_elem(row); // Получаем элемент, с кот-ым будем работать
+			elem_to_work->set_obj((TYPE_0*)new_obj);
+			return true;
+		}
+		case 1: {
+			auto list_to_work = (List<TYPE_1>*)get_column(col)->get_obj();
+			auto len_of_column = list_to_work->len();
+			while (len_of_column < row + 1) { // Если текущей ячейки нет
+				list_to_work->append(new TYPE_1()); // Заполняем место до ячейки пустыми элементами
+				len_of_column++;
+			}
+			auto elem_to_work = list_to_work->get_elem(row); // Получаем элемент, с кот-ым будем работать
+			elem_to_work->set_obj((TYPE_1*)new_obj);
+			return true;
+		}
+		case 2: {
+			auto list_to_work = (List<TYPE_2>*)get_column(col)->get_obj();
+			auto len_of_column = list_to_work->len();
+			while (len_of_column < row + 1) { // Если текущей ячейки нет
+				list_to_work->append(new TYPE_2()); // Заполняем место до ячейки пустыми элементами
+				len_of_column++;
+			}
+			auto elem_to_work = list_to_work->get_elem(row); // Получаем элемент, с кот-ым будем работать
+			elem_to_work->set_obj((TYPE_2*)new_obj);
+			return true;
+		}
+	}
+	
+}
+
 void Table::delete_column(int col)
 {
-	// 1. �������� ��������� �� �������
-	// 2. ������� �������
+	// 1. Получить указатель на столбец
+	// 2. Удалить столбец
 	list_of_lists->remove_elem(col);
 	list_of_names.remove_elem(col);
 	num_of_columns--;
@@ -232,7 +306,7 @@ void Table::empty_cell(int col, int row)
 {
 	auto cell_to_empty = get_cell(col, row);
 	auto hash_of_type_of_element_to_clear = ((List<int>*)get_column(col)->get_obj())->get_type();
-	// ���������� ������� ���������� ���������� �����, ����� ��������� ������� _obj
+	// Необходимо сделать корректное приведение типов, чтобы правильно удалить _obj
 	if (hash_of_type_of_element_to_clear == typeid(TYPE_0).hash_code()) {
 		((List<TYPE_0>*)cell_to_empty)->set_obj(nullptr);
 	}

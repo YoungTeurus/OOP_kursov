@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include "List.h"
 #include <sstream>
 #include <iostream>
@@ -9,24 +9,24 @@
 
 class Table
 {
-				List<std::string>			list_of_names;				// Список названий столбцов
-				List<BaseObject>*			list_of_lists;				// Голова самого главного списка
-				int							num_of_columns;				// Количество столбцов (для вывода)
+				List<std::string>			list_of_names;				// РЎРїРёСЃРѕРє РЅР°Р·РІР°РЅРёР№ СЃС‚РѕР»Р±С†РѕРІ
+				List<BaseObject>*			list_of_lists;				// Р“РѕР»РѕРІР° СЃР°РјРѕРіРѕ РіР»Р°РІРЅРѕРіРѕ СЃРїРёСЃРєР°
+				int							num_of_columns;				// РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚РѕР»Р±С†РѕРІ (РґР»СЏ РІС‹РІРѕРґР°)
 public:
-											Table();					// Конструктор пустой таблицы
-				bool 						add_column(int id);			// Добавляет столбик с выбранным типом хранимых элементов
-				bool 						add_column(int id, std::string name);// Добавляет столбик с выбранным типом хранимых элементов
-template<typename T> bool					append_in_column(T* element, int num_of_column);// Добавляет ячейку в выбранный столбик
-				bool						get_in_column(int num_of_column); // Добавляет ячейку в выбранный столбик, запрашивая ввод у пользователя
-				void						beauty_print();				// Красивый вывод таблицы в консоль
-				void						edit_cell(int col, int row);// Изменение значения ячейки
-				void						delete_column(int col);		// Удаление столбца
-				void						delete_cell(int col, int row);// Удаление строки
+											Table();					// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСѓСЃС‚РѕР№ С‚Р°Р±Р»РёС†С‹
+				bool 						add_column(int id);			// Р”РѕР±Р°РІР»СЏРµС‚ СЃС‚РѕР»Р±РёРє СЃ РІС‹Р±СЂР°РЅРЅС‹Рј С‚РёРїРѕРј С…СЂР°РЅРёРјС‹С… СЌР»РµРјРµРЅС‚РѕРІ
+				bool 						add_column(int id, std::string name);// Р”РѕР±Р°РІР»СЏРµС‚ СЃС‚РѕР»Р±РёРє СЃ РІС‹Р±СЂР°РЅРЅС‹Рј С‚РёРїРѕРј С…СЂР°РЅРёРјС‹С… СЌР»РµРјРµРЅС‚РѕРІ
+template<typename T> bool					append_in_column(T* element, int num_of_column);// Р”РѕР±Р°РІР»СЏРµС‚ СЏС‡РµР№РєСѓ РІ РІС‹Р±СЂР°РЅРЅС‹Р№ СЃС‚РѕР»Р±РёРє
+				bool						get_in_column(int num_of_column); // Р”РѕР±Р°РІР»СЏРµС‚ СЏС‡РµР№РєСѓ РІ РІС‹Р±СЂР°РЅРЅС‹Р№ СЃС‚РѕР»Р±РёРє, Р·Р°РїСЂР°С€РёРІР°СЏ РІРІРѕРґ Сѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+				void						beauty_print();				// РљСЂР°СЃРёРІС‹Р№ РІС‹РІРѕРґ С‚Р°Р±Р»РёС†С‹ РІ РєРѕРЅСЃРѕР»СЊ
+				bool						edit_cell(int col, int row, int type, void* new_obj);// РР·РјРµРЅРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЏС‡РµР№РєРё
+				void						delete_column(int col);		// РЈРґР°Р»РµРЅРёРµ СЃС‚РѕР»Р±С†Р°
+				void						delete_cell(int col, int row);// РЈРґР°Р»РµРЅРёРµ СЃС‚СЂРѕРєРё
 				
-				void						empty_cell(int col, int row);// Очищение ячейки,т.е. удаление его _obj
+				void						empty_cell(int col, int row);// РћС‡РёС‰РµРЅРёРµ СЏС‡РµР№РєРё,С‚.Рµ. СѓРґР°Р»РµРЅРёРµ РµРіРѕ _obj
 
-				//void						print();					// Вывод таблицы в консоль
-				// Вспомогательные функции перевода чисел в std::string
+				//void						print();					// Р’С‹РІРѕРґ С‚Р°Р±Р»РёС†С‹ РІ РєРѕРЅСЃРѕР»СЊ
+				// Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё РїРµСЂРµРІРѕРґР° С‡РёСЃРµР» РІ std::string
 				static		std::string		convertInt(int number)
 				{
 					std::stringstream ss;
@@ -39,7 +39,7 @@ template<typename T> bool					append_in_column(T* element, int num_of_column);//
 					ss << number;
 					return ss.str();
 				}
-				// Получение std::string из cin
+				// РџРѕР»СѓС‡РµРЅРёРµ std::string РёР· cin
 				static		void			inputString_from_cin(std::string* str) {
 					using namespace std;
 					cin.clear();
@@ -47,19 +47,20 @@ template<typename T> bool					append_in_column(T* element, int num_of_column);//
 					getline(cin, *str);
 				}
 private:
-				std::string					get_cell_to_string(int col, int row);	// Возвращает строковую запись ячейки для вывода на экран
+				std::string					get_cell_to_string(int col, int row);	// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєРѕРІСѓСЋ Р·Р°РїРёСЃСЊ СЏС‡РµР№РєРё РґР»СЏ РІС‹РІРѕРґР° РЅР° СЌРєСЂР°РЅ
+//private:
 public:
-				List<BaseObject>*			get_column(int col);		// Получение указателя на столбец
-				void*						get_cell(int col, int row);	// Получение указателя на ячейку
+				List<BaseObject>*			get_column(int col);		// РџРѕР»СѓС‡РµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° СЃС‚РѕР»Р±РµС†
+				void*						get_cell(int col, int row);	// РџРѕР»СѓС‡РµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° СЏС‡РµР№РєСѓ
 };
 
 template<typename T>
 inline bool Table::append_in_column(T* element, int num_of_column)
 {
-	auto always_get = list_of_lists->get_elem(num_of_column)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
+	auto always_get = list_of_lists->get_elem(num_of_column)->get_obj(); // Р’СЃРµРіРґР° РїС‹С‚Р°РµРјСЃСЏ РЅР°Р№С‚Рё РЅСѓР¶РЅС‹Р№ СЃС‚РѕР»Р±РёРє. Р•СЃР»Рё РµРіРѕ РЅРµС‚ - РїРѕР»СѓС‡РёРј nullptr
 	if (always_get) {
-		if (always_get->get_type() == typeid(*element).hash_code()) { // Если тип храним объектов совпадает с передаваемым
-			((List<T>*)always_get)->append(element); // Запись в этот столбик
+		if (always_get->get_type() == typeid(*element).hash_code()) { // Р•СЃР»Рё С‚РёРї С…СЂР°РЅРёРј РѕР±СЉРµРєС‚РѕРІ СЃРѕРІРїР°РґР°РµС‚ СЃ РїРµСЂРµРґР°РІР°РµРјС‹Рј
+			((List<T>*)always_get)->append(element); // Р—Р°РїРёСЃСЊ РІ СЌС‚РѕС‚ СЃС‚РѕР»Р±РёРє
 			return true;
 		}
 	}
