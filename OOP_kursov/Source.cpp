@@ -105,13 +105,57 @@ int main() {
 	tbl.add_column(0, "Int");
 	tbl.add_column(1, "Double");
 	tbl.add_column(2, "Std::string");
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 5; i++) {
 		tbl.append_in_column(new int(i),0);
 		tbl.append_in_column(new int(rand()%10001 - 5000), 1); // Запись числа "i" в первый столбик
 		tbl.append_in_column(new double(rand() % 10001 - 5000 + 3.5), 2);
 		tbl.append_in_column(new std::string("Wow it is " + Table::convertInt(i) + " element!"), 3);
 	}
 	tbl.beauty_print();
+
+	while (true) {
+		cout << "What to do?\n";
+		cout << "1. Add new column\n";
+		cout << "2. Add new cell in column\n";
+		cout << "3. Edit cell in column\n";
+		cout << "4. Print whole table\n";
+		int choise;
+		cin >> choise;
+		switch (choise)
+		{
+		case 1: { // Добавление столбца
+			cout << "Enter the type of new column:\n";
+			cout << "1. int\n";
+			cout << "2. double\n";
+			cout << "3. std::string\n";
+			int choise;
+			cin >> choise;
+			cout << "Enter the name of new column:\n";
+			std::string name;
+			std::getline(std::cin, name);
+			if (choise >= 1 && choise <= 3) {
+				tbl.add_column(choise-1, name);
+			}
+			else
+				cout << "You selected wrong type! Try again.\n";
+			break;
+		}
+		case 2: {
+			cout << "Write the number of column to add cell: ";
+			int column;
+			cin >> column;
+			tbl.get_in_column(column);
+			break;
+		}
+		case 4: {
+			tbl.beauty_print();
+			break;
+		}
+		default:
+			cout << "You selected wrong task! Try again.\n";
+			break;
+		}
+	}
 
 	/*
 	List<BaseObject> test2_list;

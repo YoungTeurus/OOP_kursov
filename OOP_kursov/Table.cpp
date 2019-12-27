@@ -34,6 +34,35 @@ bool Table::add_column(int id, std::string name)
 	return true;
 }
 
+bool Table::get_in_column(int num_of_column)
+{
+	auto always_get = list_of_lists->get_elem(num_of_column)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
+	if (always_get) {
+		if (always_get->get_type() == typeid(TYPE_0).hash_code()) {
+			TYPE_0* a = new TYPE_0();
+			std::cin.clear();
+			std::cin >> *a;
+			append_in_column(a,num_of_column);
+			return true;
+		}
+		if (always_get->get_type() == typeid(TYPE_1).hash_code()) {
+			TYPE_1* a = new TYPE_1();
+			std::cin.clear();
+			std::cin >> *a;
+			append_in_column(a, num_of_column);
+			return true;
+		}
+		if (always_get->get_type() == typeid(TYPE_2).hash_code()) {
+			TYPE_2* a = new TYPE_2();
+			std::cin.clear();
+			std::getline(std::cin,*a);
+			append_in_column(a, num_of_column);
+			return true;
+		}
+	}
+	return false;
+}
+
 std::string Table::get_cell(int col, int row)
 {
 	auto type = typeid(int).hash_code(); // Определяется из типа создаваемой колонки
@@ -102,7 +131,7 @@ void Table::beauty_print()
 
 	// Печатаем по столбику
 	List < std::vector < std::string >> strings_;
-	std::vector<int> max_lens;
+	std::vector<size_t> max_lens;
 	for (int col = 0; col < num_of_columns; col++) {
 		std::vector<std::string>* col_strings = new std::vector<std::string>;
 		

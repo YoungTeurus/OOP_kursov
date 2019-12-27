@@ -15,6 +15,7 @@ public:
 				bool 						add_column(int id, std::string name);// Добавляет столбик с выбранным типом хранимых элементов
 template<typename T>
 				bool						append_in_column(T* element, int num_of_column);// Добавляет ячейку в выбранный столбик
+				bool						get_in_column(int num_of_column); // Добавляет ячейку в выбранный столбик, запрашивая ввод у пользователя
 				std::string					get_cell(int col, int row);	// Возвращает строковую запись ячейки для вывода на экран
 				void						print();					// Вывод таблицы в консоль
 				void						beauty_print();				// Красивый вывод таблицы в консоль

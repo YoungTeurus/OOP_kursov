@@ -5,30 +5,31 @@ template<typename T>
 class List : public BaseObject {
 public:
 	// Методы для базового класса
-	int				type();
+	size_t			type();
 	const char*		name();
-	unsigned int get_type(); // Получить хеш-сумму типа элементов, хранимых в списке
+	size_t			get_type();		// Получить хеш-сумму типа элементов, хранимых в списке
 public:
 				List();				// Конструктор пустого списка
-				List(unsigned int type_hash);// Конструктор пустого списка с определением типа хранимых элементов
+				List(size_t type_hash);// Конструктор пустого списка с определением типа хранимых элементов
 				List(T*);			// Конструктор списка с данными
 				~List();			// Деструктор списка
 	void		append(T* elem);	// Добавление элемента в конец списка
 	void		append(List<T>* list); // Добавление списка в конец списка
 	int			len();				// Длина списка
-	List<T>*	get_elem(const int index); // Получить index-овый элемент списка
-	List<T>*	operator[](const int index);
 
-	T*			get_obj();
+	List<T>*	get_elem(const int index); // Получить index-овый элемент списка
+	T*			get_obj();			// Получить _obj элемента списка
+
+	void		set_obj(T* new_obj); // Установить новый _obj для элемента списка
 	
 private:
 	T*			_obj;				// Указатель на хранимый объект
 	List<T>*	_next;				// Указатель на следующий элемент
-	unsigned int _stored_items_type_hash = 0; // Хэш-сумма типа элементов, хранимых в списке
+	size_t		_stored_items_type_hash = 0; // Хэш-сумма типа элементов, хранимых в списке
 };
 
 template<typename T>
-inline int List<T>::type()
+inline size_t List<T>::type()
 {
 	return typeid(this).hash_code();
 }
@@ -47,7 +48,7 @@ inline List<T>::List()
 }
 
 template<typename T>
-inline List<T>::List(unsigned int type_hash)
+inline List<T>::List(size_t type_hash)
 {
 	_obj = nullptr;
 	_next = nullptr;
@@ -121,34 +122,6 @@ inline List<T>* List<T>::get_elem(const int index)
 }
 
 template<typename T>
-inline List<T>* List<T>::operator[](const int index)
-{
-	if (_obj == nullptr && _next) { // Такое работает только для головы списка и только если у неё есть _next
-		auto elem = _next;
-		auto _index = index;
-		while (elem && _index > 0) {
-			elem = elem->_next;
-			_index--;
-		}
-		return elem;
-	}
-	return nullptr;
-	/*
-	if (_obj == nullptr) { // Если обращаемся к голове списка, вызываем рекурсию, не уменьшая index
-		if (_next) // Если список не пустой
-			return _next->operator[](index);
-		return nullptr; // Если список пустой
-	}
-	if (index == 0) // Если index равен 0, возвращаем текущий объект
-		return _obj;
-	if (_next) // Если index не равен 0 и есть следующий элемент
-		return _next->operator[](index - 1); // Запускаем рекурсию, уменьшая index
-	// Если следующего элемента нет
-	return nullptr;
-	*/
-}
-
-template<typename T>
 inline T* List<T>::get_obj()
 {
 	if (!this)
@@ -157,7 +130,14 @@ inline T* List<T>::get_obj()
 }
 
 template<typename T>
-inline unsigned int List<T>::get_type()
+inline void List<T>::set_obj(T* new_obj)
+{
+	delete _obj;
+	_obj = new_obj;
+}
+
+template<typename T>
+inline size_t List<T>::get_type()
 {
 	return _stored_items_type_hash;
 }
