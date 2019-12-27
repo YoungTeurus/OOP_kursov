@@ -231,5 +231,15 @@ void Table::delete_cell(int col, int row)
 void Table::empty_cell(int col, int row)
 {
 	auto cell_to_empty = get_cell(col, row);
-	((List<BaseObject>*)cell_to_empty)->set_obj(nullptr);
+	auto hash_of_type_of_element_to_clear = ((List<int>*)get_column(col)->get_obj())->get_type();
+	// Необходимо сделать корректное приведение типов, чтобы правильно удалить _obj
+	if (hash_of_type_of_element_to_clear == typeid(TYPE_0).hash_code()) {
+		((List<TYPE_0>*)cell_to_empty)->set_obj(nullptr);
+	}
+	else if (hash_of_type_of_element_to_clear == typeid(TYPE_1).hash_code()) {
+		((List<TYPE_1>*)cell_to_empty)->set_obj(nullptr);
+	}
+	else if (hash_of_type_of_element_to_clear == typeid(TYPE_2).hash_code()) {
+		((List<TYPE_2>*)cell_to_empty)->set_obj(nullptr);
+	}
 }
