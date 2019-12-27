@@ -55,7 +55,10 @@ bool Table::get_in_column(int num_of_column)
 		if (always_get->get_type() == typeid(TYPE_2).hash_code()) {
 			TYPE_2* a = new TYPE_2();
 			std::cin.clear();
+			//std::flush(std::cin);
+			//std::cin >> *a;
 			std::getline(std::cin,*a);
+			std::getline(std::cin, *a);
 			append_in_column(a, num_of_column);
 			return true;
 		}
