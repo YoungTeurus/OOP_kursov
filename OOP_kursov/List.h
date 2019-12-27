@@ -21,6 +21,8 @@ public:
 	T*			get_obj();			// Получить _obj элемента списка
 
 	void		set_obj(T* new_obj); // Установить новый _obj для элемента списка
+
+	bool		remove_elem(const int index); //Удаляет index-овый элемент списка
 	
 private:
 	T*			_obj;				// Указатель на хранимый объект
@@ -65,8 +67,10 @@ inline List<T>::List(T* obj)
 template<typename T>
 inline List<T>::~List()
 {
+	// Если удаляется НЕ голова списка, то нельзя удалять _next
+	if(!_obj)
+		delete _next;
 	delete _obj;
-	delete _next;
 }
 
 template<typename T>
@@ -134,6 +138,25 @@ inline void List<T>::set_obj(T* new_obj)
 {
 	delete _obj;
 	_obj = new_obj;
+}
+
+template<typename T>
+inline bool List<T>::remove_elem(const int index)
+{
+	auto elem_to_delete = get_elem(index); // Получаем указатель на тот элемент, который необходимо удалить
+	if (elem_to_delete) { // Если этот элемент найден
+		if (index > 0) { // Если удаляем НЕ первый элемент списка
+			auto elem_prev_to_delete = get_elem(index - 1); // Получаем указатель на тот элемент, который стоит перед тем, который необходимо удалить
+			elem_prev_to_delete->_next = elem_to_delete->_next; // Прокидываем указатель на _next
+			delete elem_to_delete;								// Удаляем элемент
+		}
+		else { // Если удаляем первый элемент списка
+			_next = elem_to_delete->_next;	// Прокидываем указатель на _next
+			delete elem_to_delete;			// Удаляем элемент
+		}
+		return true;
+	}
+	return false;
 }
 
 template<typename T>

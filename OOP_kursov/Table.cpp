@@ -62,7 +62,7 @@ bool Table::get_in_column(int num_of_column)
 	return false;
 }
 
-std::string Table::get_cell(int col, int row)
+std::string Table::get_cell_to_string(int col, int row)
 {
 	auto type = typeid(int).hash_code(); // Определяется из типа создаваемой колонки
 
@@ -111,6 +111,16 @@ std::string Table::get_cell(int col, int row)
 	return result;
 }
 
+List<BaseObject>* Table::get_column(int col)
+{
+	return (List<BaseObject>*)list_of_lists->get_elem(col);
+}
+
+void* Table::get_cell(int col, int row)
+{
+	return ((List<void>*)get_column(col)->get_obj())->get_elem(row);
+}
+
 /*
 void Table::print()
 {
@@ -118,7 +128,7 @@ void Table::print()
 	for (int row = 0; row < 10; row++) {
 		std::string string_to_add;
 		for (int col = 0; col < num_of_columns; col++) {
-			string_to_add += get_cell(col, row);
+			string_to_add += get_cell_to_string(col, row);
 			string_to_add += " | ";
 		}
 		std::cout << string_to_add << "\n";
@@ -138,7 +148,7 @@ void Table::beauty_print()
 		
 		for (int row = 0; row < num_of_rows; row++) {
 			std::string string_to_add;
-			string_to_add += get_cell(col, row);
+			string_to_add += get_cell_to_string(col, row);
 			string_to_add += " | ";
 			col_strings->push_back(string_to_add);
 		}
@@ -192,4 +202,34 @@ void Table::beauty_print()
 		}
 		std::cout << "\n";
 	}
+}
+
+void Table::delete_column(int col)
+{
+	// 1. Получить указатель на столбец
+	// 2. Удалить столбец
+	list_of_lists->remove_elem(col);
+	list_of_names.remove_elem(col);
+	num_of_columns--;
+}
+
+void Table::delete_cell(int col, int row)
+{
+	//auto cell_to_delete = get_cell(col, row);
+	//auto int_hash = ((List<int>*)get_column(col)->get_obj())->get_type();
+	//auto test_int_hash = typeid(int).hash_code();
+	//auto test_int_hash_2 = typeid(int*).hash_code();
+	//auto test_int_hash_3 = typeid(List<int>*).hash_code();
+
+	auto column_where_cell_to_delete_is = get_column(col);
+	auto list_where_cell_to_delete_is = (List<BaseObject>*)column_where_cell_to_delete_is->get_obj();
+	list_where_cell_to_delete_is->remove_elem(row);
+	
+	//((List<BaseObject>*)cell_to_delete)->get_type();
+}
+
+void Table::empty_cell(int col, int row)
+{
+	auto cell_to_empty = get_cell(col, row);
+	((List<BaseObject>*)cell_to_empty)->set_obj(nullptr);
 }
