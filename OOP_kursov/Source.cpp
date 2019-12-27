@@ -95,6 +95,7 @@ std::string get_cell(List<BaseObject>* list, int col, int row) {
 }
 */
 
+
 int main() {
 	using namespace std;
 	srand(12341241);
@@ -114,11 +115,12 @@ int main() {
 	tbl.beauty_print();
 
 	while (true) {
+		system("cls");
+		tbl.beauty_print();
 		cout << "What to do?\n";
 		cout << "1. Add new column\n";
 		cout << "2. Add new cell in column\n";
 		cout << "3. Edit cell in column\n";
-		cout << "4. Print whole table\n";
 		int choise;
 		cin >> choise;
 		switch (choise)
@@ -132,7 +134,7 @@ int main() {
 			cin >> choise;
 			cout << "Enter the name of new column:\n";
 			std::string name;
-			std::getline(std::cin, name);
+			Table::inputString_from_cin(&name);
 			if (choise >= 1 && choise <= 3) {
 				tbl.add_column(choise-1, name);
 			}
@@ -147,12 +149,15 @@ int main() {
 			tbl.get_in_column(column);
 			break;
 		}
-		case 4: {
-			tbl.beauty_print();
-			break;
+		case 3:{
+			cout << "Write the number of column to edit cell: ";
+			int column;
+			cin >> column;
+			cout << "Write the number of row to edit cell: ";
+			int row;
+			cin >> row;
 		}
 		default:
-			cout << "You selected wrong task! Try again.\n";
 			break;
 		}
 	}

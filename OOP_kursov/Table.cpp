@@ -54,11 +54,7 @@ bool Table::get_in_column(int num_of_column)
 		}
 		if (always_get->get_type() == typeid(TYPE_2).hash_code()) {
 			TYPE_2* a = new TYPE_2();
-			std::cin.clear();
-			//std::flush(std::cin);
-			//std::cin >> *a;
-			std::getline(std::cin,*a);
-			std::getline(std::cin, *a);
+			inputString_from_cin(a);
 			append_in_column(a, num_of_column);
 			return true;
 		}
@@ -115,6 +111,7 @@ std::string Table::get_cell(int col, int row)
 	return result;
 }
 
+/*
 void Table::print()
 {
 	//List<std::string> strings_to_print;
@@ -127,6 +124,7 @@ void Table::print()
 		std::cout << string_to_add << "\n";
 	}
 }
+*/
 
 void Table::beauty_print()
 {

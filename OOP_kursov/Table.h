@@ -17,21 +17,28 @@ template<typename T>
 				bool						append_in_column(T* element, int num_of_column);// Добавляет ячейку в выбранный столбик
 				bool						get_in_column(int num_of_column); // Добавляет ячейку в выбранный столбик, запрашивая ввод у пользователя
 				std::string					get_cell(int col, int row);	// Возвращает строковую запись ячейки для вывода на экран
-				void						print();					// Вывод таблицы в консоль
+				//void						print();					// Вывод таблицы в консоль
 				void						beauty_print();				// Красивый вывод таблицы в консоль
 
 				// Вспомогательные функции перевода чисел в std::string
-				static		std::string					convertInt(int number)
+				static		std::string		convertInt(int number)
 				{
 					std::stringstream ss;
 					ss << number;
 					return ss.str();
 				}
-				static		std::string					convertDouble(double number)
+				static		std::string		convertDouble(double number)
 				{
 					std::stringstream ss;
 					ss << number;
 					return ss.str();
+				}
+				// Получение std::string из cin
+				static		void			inputString_from_cin(std::string* str) {
+					using namespace std;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					getline(cin, *str);
 				}
 private:
 				List<std::string>			list_of_names;				// Список названий столбцов
