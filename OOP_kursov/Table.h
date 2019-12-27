@@ -27,7 +27,7 @@ template<typename T> bool					append_in_column(T* element, int num_of_column);//
 
 				std::string*				get_string();					// Возвращает строку - линейную запись таблицы
 				void						write_into_txt_file();			// Запись в текстовый файл
-				void						load_from_txt_file();			// Загрузка из текстового файла
+				int						load_from_txt_file();			// Загрузка из текстового файла
 
 				//void						print();						// Вывод таблицы в консоль
 				// Вспомогательные функции перевода чисел в std::string

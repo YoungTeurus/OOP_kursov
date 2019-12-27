@@ -358,3 +358,134 @@ void Table::write_into_txt_file()
 	delete string_to_write;
 	output_file.close();
 }
+
+int Table::load_from_txt_file()
+{
+	// Загружать таблицу можно только тогда, когда она пуста
+	if (list_of_lists->len() != 0)
+		return -665; // Ошибка, таблица не пуста
+
+	std::ifstream input_file;
+	input_file.open("out.txt", std::ios::in);
+	if (!input_file) {
+		return -1; // Ошибка, не смогли открыть файл
+	}
+
+	char test_char;
+	input_file.get(test_char); // Считываем первый char
+	if (test_char != '>') { // Если первый символ в файле не ">", то это не наш файл.
+		input_file.close();
+		return -2; // Ошибка, не смогли считать файл
+	}
+	// Это будет в цикле до конца файла
+	int current_column = 0;
+	while(true)
+	{
+		// Считываем название столбца
+		char name_char;
+		std::string name_of_col;
+		input_file.get(name_char);
+		if (name_char == '<') // Дошли до конца файла
+			break;
+		while (name_char != '|') {
+			name_of_col += name_char;
+			input_file.get(name_char);
+		}
+		// Считываем тип хранимых элементов
+		char type_char;
+		input_file.get(type_char);
+		std::string type_of_col; // Строка для записи числа - номера типа
+		while (type_char != '|') {
+			type_of_col += type_char;
+			input_file.get(type_char);
+		}
+		int type;
+		try {
+			type = std::stoi(type_of_col);
+		}
+		catch (std::invalid_argument){ // Если в строке не int
+			input_file.close();
+			return -3; // Ошибка, сохранённый в файле тип - не int
+		}
+		if (type < 0 || type > 2) {
+			input_file.close();
+			return -4; // Ошибка, сохранённый в файле тип не определён
+		}
+		add_column(type, name_of_col); // Добавляем столбик нужного типа
+		switch (type)
+		{
+			case 0: {
+				while(true){
+					// Считываем int
+					char int_char;
+					input_file.get(int_char);
+					if (int_char == '#') { // Как встретили '#', так сразу вышли
+						break;
+					}
+					std::string read_int; // Строка для записи числа - номера типа
+					while (int_char != '|') {
+						read_int += int_char;
+						input_file.get(int_char);
+					}
+					auto read_int_int = new int();
+					try {
+						*read_int_int = std::stoi(read_int);
+					}
+					catch (std::invalid_argument) { // Если в строке не int
+						input_file.close();
+						return -5; // Ошибка, сохранённый в файле элемент не совпадает с типом, указанным ранее
+					}
+					append_in_column(read_int_int, current_column); // Добавили элемент в конец
+				}
+				break;
+			}
+			case 1: {
+				while (true) {
+					// Считываем int
+					char double_char;
+					input_file.get(double_char);
+					if (double_char == '#') { // Как встретили '#', так сразу вышли
+						break;
+					}
+					std::string read_double; // Строка для записи числа - номера типа
+					while (double_char != '|') {
+						read_double += double_char;
+						input_file.get(double_char);
+					}
+					auto read_double_double = new double();
+					try {
+						*read_double_double = std::stod(read_double);
+					}
+					catch (std::invalid_argument) { // Если в строке не int
+						input_file.close();
+						return -5; // Ошибка, сохранённый в файле элемент не совпадает с типом, указанным ранее
+					}
+					append_in_column(read_double_double, current_column); // Добавили элемент в конец
+				}
+				break;
+			}
+			case 2: {
+				while (true) {
+					// Считываем int
+					char char_char;
+					input_file.get(char_char);
+					if (char_char == '#') { // Как встретили '#', так сразу вышли
+						break;
+					}
+					auto read_char = new std::string();
+					//std::string read_char; // Строка для записи числа - номера типа
+					while (char_char != '|') {
+						*read_char += char_char;
+						input_file.get(char_char);
+					}
+					append_in_column(read_char, current_column); // Добавили элемент в конец
+				}
+				break;
+			}
+		}
+		current_column++;
+	}
+
+	input_file.close();
+	return 0;
+}

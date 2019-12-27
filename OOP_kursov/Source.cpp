@@ -116,6 +116,11 @@ int main() {
 	//tbl.get_string();
 	tbl.write_into_txt_file();
 
+	Table empty_tbl;
+
+	empty_tbl.load_from_txt_file();
+	empty_tbl.beauty_print();
+
 	//tbl.delete_column(0);
 	//tbl.delete_cell(0, 2);
 	//tbl.empty_cell(0, 2);
