@@ -1,4 +1,6 @@
-﻿#include "Table.h"
+﻿//#include "Table.h"
+//#include "BaseTypes.h"
+#include "newTable.h"
 #include <iostream>
 #include <stdlib.h>
 
@@ -98,6 +100,34 @@ std::string get_cell_to_string(List<BaseObject>* list, int col, int row) {
 
 int main() {
 	using namespace std;
+	//using namespace BaseTypes;
+	using namespace nTable;
+	//auto list = *(new List(typeid(Int).hash_code()));
+	Table a;
+	a.add_column(0, "Column 0: int");
+	a.add_column(0, "Column 1: int");
+	a.add_column(1, "Column 2: double");
+	a.add_column(2, "Column 3: std::string");
+	for (int i = 0; i < 5; i++) {
+		a.append_in_column(new Int(i), 0);
+		a.append_in_column(new Int(rand() % 10001 - 5000), 1); // Запись числа "i" в первый столбик
+		a.append_in_column(new Double(rand() % 10001 - 5000 + 3.5), 2);
+		a.append_in_column(new String("Wow it is " + Table::convertInt(i) + " element!"), 3);
+	}
+	a.append_in_column(new Int(5), 0);
+	a.print();
+
+	//cout << "\n" << a.get_string();
+	a.write_in_file();
+
+	Table b;
+	b.read_from_file();
+	b.print();
+	//a.add_column(1);
+	//a.add_column(2);	
+
+	// Старый List с switch и всем таким
+	/*
 	srand(12341241);
 
 	Table tbl;
@@ -126,6 +156,8 @@ int main() {
 	//tbl.empty_cell(0, 2);
 
 	//tbl.beauty_print();
+
+	*/
 
 	// main_цикл
 //	{
@@ -255,30 +287,31 @@ int main() {
 	*/
 	
 	// Код для объяснений
-	{
-		// Записываем "5"
-		/*
-		{
-			auto step_0 = test2_list.get_elem(0);
-			auto step_1 = step_0->get_obj();			// Достали указатель на список int-ов.
-			auto step_2 = (List<int>*)step_1;	// Привели указатель к нужному виду.
-			step_2->append(added_int);			// Записываем "5" в данный список
-		}
-		*/
-
-		// Получаем "5"
-		/*
-		{
-			auto __step_1 = test2_list.get_elem(0); // Получили указатель на первый элемент списка столбцов
-			auto __step_2 = __step_1->get_obj();			  // Достали указатель на список int-ов.
-			auto __step_3 = (List<int>*)__step_2;	  // Привели указатель к нужному виду.
-			auto __step_4 = __step_3->get_elem(0);  // Получили указатель на первый элемент списка "int"-ов
-			auto __step_5 = *(__step_4->get_obj());		  // Получили объект, хранимый в первом объекте.
-
-			cout << __step_5 << "\n";; // Выводим "5"
-		}
-		*/
-	}
+	//{
+	//	// Записываем "5"
+	//	/*
+	//	{
+	//		auto step_0 = test2_list.get_elem(0);
+	//		auto step_1 = step_0->get_obj();			// Достали указатель на список int-ов.
+	//		auto step_2 = (List<int>*)step_1;	// Привели указатель к нужному виду.
+	//		step_2->append(added_int);			// Записываем "5" в данный список
+	//	}
+	//	*/
+	//
+	//	// Получаем "5"
+	//	/*
+	//	{
+	//		auto __step_1 = test2_list.get_elem(0); // Получили указатель на первый элемент списка столбцов
+	//		auto __step_2 = __step_1->get_obj();			  // Достали указатель на список int-ов.
+	//		auto __step_3 = (List<int>*)__step_2;	  // Привели указатель к нужному виду.
+	//		auto __step_4 = __step_3->get_elem(0);  // Получили указатель на первый элемент списка "int"-ов
+	//		auto __step_5 = *(__step_4->get_obj());		  // Получили объект, хранимый в первом объекте.
+	//
+	//		cout << __step_5 << "\n";; // Выводим "5"
+	//	}
+	//	*/
+	//}
+	//
 	
 	
 
