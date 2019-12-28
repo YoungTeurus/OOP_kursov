@@ -66,53 +66,6 @@ namespace nList {
 			string_to_return += (*this)[i]->data()->get();
 			string_to_return += "|";
 		}
-		/*
-		auto hash_of_type_of_element_to_write = ((List<int>*)get_column(col)->get_obj())->get_type(); // Тип записываемого элемента
-		if (hash_of_type_of_element_to_write == typeid(TYPE_0).hash_code()) {
-			auto list_to_work = (List<TYPE_0>*)get_column(col)->get_obj();
-			*string_to_return += "0"; // Запись типа
-			*string_to_return += "|";
-			auto len_of_list = list_to_work->len();
-			for (int i = 0; i < len_of_list; i++) {
-				// Запись элементов
-				auto element_to_add = *list_to_work->get_elem(i)->get_obj();
-				*string_to_return += convertInt(element_to_add);
-				// Добавление разделителя
-				*string_to_return += "|";
-			}
-			*string_to_return += "#"; // Разделитель столбцов
-		}
-		else if (hash_of_type_of_element_to_write == typeid(TYPE_1).hash_code()) {
-			auto list_to_work = (List<TYPE_1>*)get_column(col)->get_obj();
-			*string_to_return += "1"; // Запись типа
-			*string_to_return += "|";
-			auto len_of_list = list_to_work->len();
-			for (int i = 0; i < len_of_list; i++) {
-				// Запись элементов
-				auto element_to_add = *list_to_work->get_elem(i)->get_obj();
-				*string_to_return += convertDouble(element_to_add);
-				// Добавление разделителя
-				*string_to_return += "|";
-			}
-			*string_to_return += "#"; // Разделитель столбцов
-		}
-		else if (hash_of_type_of_element_to_write == typeid(TYPE_2).hash_code()) {
-			auto list_to_work = (List<TYPE_2>*)get_column(col)->get_obj();
-			*string_to_return += "2"; // Запись типа
-			*string_to_return += "|";
-			auto len_of_list = list_to_work->len();
-			for (int i = 0; i < len_of_list; i++) {
-				// Запись элементов
-				auto element_to_add = *list_to_work->get_elem(i)->get_obj();
-				*string_to_return += element_to_add;
-				// Добавление разделителя
-				*string_to_return += "|";
-			}
-			*string_to_return += "#"; // Разделитель столбцов
-		}
-		*/
-
-
 		return string_to_return;
 	}
 	inline void List::put(std::string str)

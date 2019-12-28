@@ -50,17 +50,6 @@ bool Table::add_column(int type_id, std::string col_name) {
 
 bool nTable::Table::append_in_column(BaseType* elem, int col)
 {
-	/*
-	auto always_get = list_of_lists->get_elem(num_of_column)->get_obj(); // Всегда пытаемся найти нужный столбик. Если его нет - получим nullptr
-	if (always_get) {
-		if (always_get->get_type() == typeid(*element).hash_code()) { // Если тип храним объектов совпадает с передаваемым
-			((List<T>*)always_get)->append(element); // Запись в этот столбик
-			return true;
-		}
-	}
-	std::cout << "Was not able to find column [" << num_of_column << "]!\n";
-	return false;
-	*/
 	return ((List*)_list_of_lists[col]->data())->append(elem);
 }
 
