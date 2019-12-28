@@ -177,7 +177,8 @@ int nTable::Table::read_from_file()
 	if (!input_file) {
 		return -1; // Ошибка, не смогли открыть файл
 	}
-
+	input_file >> *this;
+	/*
 	char test_char;
 	input_file.get(test_char); // Считываем первый char
 	if (test_char != '>') { // Если первый символ в файле не ">", то это не наш файл.
@@ -256,5 +257,6 @@ int nTable::Table::read_from_file()
 	}
 
 	input_file.close();
+	*/
 	return 0;
 }
