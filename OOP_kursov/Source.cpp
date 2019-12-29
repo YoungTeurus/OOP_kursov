@@ -100,24 +100,10 @@ std::string get_cell_to_string(List<BaseObject>* list, int col, int row) {
 
 int main() {
 	using namespace std;
-	//using namespace BaseTypes;
 	using namespace nTable;
-	//auto list = *(new List(typeid(Int).hash_code()));
 	Table a;
-	//a.add_column(0, "Column 0: int");
-	//a.add_column(0, "Column 1: int");
-	//a.add_column(1, "Column 2: double");
-	//a.add_column(2, "Column 3: std::string");
-	//for (int i = 0; i < 5; i++) {
-	//	a.append_in_column(new Int(i), 0);
-	//	a.append_in_column(new Int(rand() % 10001 - 5000), 1); // Запись числа "i" в первый столбик
-	//	a.append_in_column(new Double(rand() % 10001 - 5000 + 3.5), 2);
-	//	a.append_in_column(new String("Wow it is " + Table::convertInt(i) + " element!"), 3);
-	//}
-	//a.append_in_column(new Int(5), 0);
 	a.read_from_file("default.txt");
 	a.UI();
-	//a.print();
 
 	//std::string st;
 	//Table::inputString_from_cin(&st);

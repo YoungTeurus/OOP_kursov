@@ -33,6 +33,7 @@ void nTable::Table::UI()
 		cout << "9. Swap columns\n";
 		cout << "10. Edit (or add) row\n";
 		cout << "11. Delete row\n";
+		cout << "12. Sort column\n";
 		int choise;
 		cout << ">"; cin >> choise;
 		switch (choise)
@@ -165,8 +166,8 @@ void nTable::Table::UI()
 			cout << "Write the number of second column to swap: ";
 			int column2;
 			cout << ">"; cin >> column2;
-			if (_list_of_lists.swap_columns(column1, column2)) {
-				_list_of_names.swap_columns(column1, column2);
+			if (_list_of_lists.swap_elements(column1, column2)) {
+				_list_of_names.swap_elements(column1, column2);
 				last_msg = "Columns [" + convertInt(column1) + "] and [" + convertInt(column2) + "] was swapped!";
 			}
 			else
@@ -187,21 +188,32 @@ void nTable::Table::UI()
 			last_msg = "Row [" + convertInt(row) + "] was edited!";
 			break;
 		}
-		// Запись в бинарный файл
+		// Стереть целую строчку
 		case 11: {
-			cout << "Enter the name of the file:\n";
-			std::string name;
-			cout << ">"; Table::inputString_from_cin(&name);
-			if (write_in_binary_file(name) == 0)
-				last_msg = "Table was saved in file \"" + name + "\"!";
-			else
-				last_msg = "Table was NOT saved in file \"" + name + "\"! Check inputs!";
-			break;
+			cout << "Write the number of row to delete: ";
+			int row;
+			cout << ">"; cin >> row;
+			for (int i = 0; i < _num_of_columns; i++) {
+				delete_cell(i, row);
+			}
 			break;
 		}
-		// Загрузка из бинарный файла
+		// Отсортировать таблицу по столбику
 		case 12: {
+			/*
+			cout << "Write the number of first column to swap: ";
+			int column1;
+			cout << ">"; cin >> column1;
+			cout << "Write the number of second column to swap: ";
+			int column2;
+			cout << ">"; cin >> column2;
+			swap_rows(column1, column2);
 			break;
+			*/
+			cout << "Write the number of column to sort: ";
+			int column;
+			cout << ">"; cin >> column;
+			sort_by_column(column);
 		}
 		default:
 			break;
@@ -261,6 +273,11 @@ void nTable::Table::edit_cell(int col, int row, std::string new_data)
 	auto len_of_this_list = list_to_work->len();
 	// Иммем список с типом в _type
 	if (len_of_this_list < row + 1) { // Если он короче, чем нужно
+		while (len_of_this_list < row + 1) {
+			list_to_work->append_empty();
+			len_of_this_list++;
+		}
+		/*
 		switch (list_to_work->get_type())
 		{
 		case 0: {
@@ -269,22 +286,23 @@ void nTable::Table::edit_cell(int col, int row, std::string new_data)
 				len_of_this_list++;
 			}
 			break;
-		}
+			}
 		case 1: {
 			while (len_of_this_list < row + 1) {
 				list_to_work->append(new Double());
 				len_of_this_list++;
 			}
 			break;
-		}
+			}
 		case 2: {
 			while (len_of_this_list < row + 1) {
 				list_to_work->append(new String());
 				len_of_this_list++;
 			}
 			break;
+			}
 		}
-		}
+		*/
 	}
 	(*list_to_work)[row]->data()->put(new_data);
 }
@@ -316,6 +334,50 @@ void nTable::Table::delete_table()
 	int num_of_cols = _num_of_columns;
 	for (auto i = 0; i < num_of_cols; i++) {
 		delete_column(0);
+	}
+}
+
+void nTable::Table::swap_rows(int row1, int row2)
+{
+	auto max_row = row1 > row2 ? row1 : row2; // Максимум из номеров рядов
+	for (auto i = 0; i < _num_of_columns; i++) {
+		if (((List*)_list_of_lists[i]->data())->len() < max_row) { // Если в столбике нет элемента такого ряда
+			edit_cell(i, max_row, ""); // Дополняем эти колонки
+		}
+	}
+	//auto len_of_shotest_col = INT32_MAX; // Самая короткая колонка
+	//for (auto i = 0; i < _num_of_columns; i++) {
+	//	auto len_of_col = ((List*)_list_of_lists[i]->data())->len();
+	//	if (len_of_col < len_of_shotest_col)
+	//		len_of_shotest_col = len_of_col;
+	//}
+	//// Если длина одного из столбцов меньше запрашиваемого ряда, нужно дополнить эту колонку пустыми элементами
+	//if (row1 > len_of_shotest_col || row2 > len_of_shotest_col) {
+	//	auto max_row = row1 > row2 ? row1 : row2; // Максимум из номеров рядов
+	//}
+	for (auto i = 0; i < _num_of_columns; i++) {
+		((List*)_list_of_lists[i]->data())->swap_elements(row1, row2);
+	}
+}
+
+void nTable::Table::sort_by_column(int col)
+{
+	List* list_to_work = (List*)(_list_of_lists[col]->data());
+	if (list_to_work) {
+		auto len_of_list = list_to_work->len();
+		// Простейшая сортировка пузырьком
+		for (int i = 0; i < len_of_list; i++) {
+			bool flag = true;
+			for (int j = 0; j < len_of_list - (i + 1); j++) {
+				if (*(*list_to_work)[j]->data() > *(*list_to_work)[j+1]->data()) {
+					flag = false;
+					swap_rows(j, j + 1);
+				}
+			}
+			if (flag) {
+				break;
+			}
+		}
 	}
 }
 

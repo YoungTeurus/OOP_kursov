@@ -14,6 +14,9 @@ namespace nList {
 			void			put(std::string str);			// Записывает значение в переменную из строки
 	static	size_t			hash_code();					// Возвращает хеш код типа
 							~List();
+			int				compare(BaseType*);				// Сравнение объектов
+			void			add(BaseType*) {}				// Сложение объектов
+			BaseType*		copy();							// Копия объекта
 
 			//*** Особые методы ***//
 							List();							// Пустой конструктор
@@ -21,6 +24,7 @@ namespace nList {
 							List(BaseType* elem);			// Конструктор списка сразу с данными
 			bool			append(BaseType* elem);			// Доабвление элемента к списку
 			void			append(List* lst);				// Добавление целого списка в конец
+			void			append_empty();					// Добавление в конец пустого элемента
 
 			List*			operator[](const int index);	// Получение index-ого элемента списка
 			BaseType*		data();							// Получение поля _data
@@ -28,9 +32,10 @@ namespace nList {
 			int				len();							// Получение длинны списка
 			bool			remove_elem(const int index);	// Удаление элемента списка
 			int				get_type();						// Возвращение типа
+			void			sort();							// Сортировка списка
 			void			set_type(const int);			// Установка типа (только для ввода/вывода в файл)
 			void			set_type_hash(size_t type_hash);// Установка хеша типа хранимых данных
-			bool			swap_columns(int a, int b);		// Изменение положения двух колонок
+			bool			swap_elements(int a, int b);	// Изменение положения двух колонок
 	};
 
 	inline List::List()
@@ -82,6 +87,22 @@ namespace nList {
 			delete _next;
 		delete _data;
 	}
+	inline int List::compare(BaseType*)
+	{
+		//TODO: Подумать, нужно ли тут будет писать что-то для практической пользы
+		return 0;
+	}
+	inline BaseType* List::copy()
+	{
+		//TODO: Подумать, нужно ли тут будет писать что-то для практической пользы
+
+		//if (!_data) { // Копировать можно только с головы!
+		//	auto elem_to_return = new List();
+		//
+		//	return elem_to_return;
+		//}
+		return nullptr;
+	}
 	inline bool List::append(BaseType* elem)
 	{
 		if (!elem)
@@ -103,6 +124,24 @@ namespace nList {
 			return;
 		}
 		_next->append(lst);
+	}
+	inline void List::append_empty()
+	{
+		switch (get_type())
+		{
+		case 0: {
+			append(new Int());
+			break;
+			}
+		case 1: {
+			append(new Double());
+			break;
+			}
+		case 2: {
+			append(new String());
+			break;
+			}
+		}
 	}
 	inline List* List::operator[](const int index)
 	{
@@ -169,6 +208,9 @@ namespace nList {
 	{
 		return _type;
 	}
+	inline void List::sort()
+	{
+	}
 	inline void List::set_type(const int type)
 	{
 		_type = type;
@@ -177,7 +219,7 @@ namespace nList {
 	{
 		_type_hash = type_hash;
 	}
-	inline bool List::swap_columns(int a, int b)
+	inline bool List::swap_elements(int a, int b)
 	{
 		if (a == b || a < 0 || b < 0)
 			return false;

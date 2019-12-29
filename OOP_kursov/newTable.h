@@ -23,10 +23,12 @@ namespace nTable {
 			void		delete_cell(int col, int row);				// Удаляет ячейку таблицы
 			void		delete_table();								// Удаляет всю таблицу
 
+			void		swap_rows(int row1, int row2);				// Меняет местами две строки
+			void		sort_by_column(int col);						// Сортировка таблицы по столбцу
+
 			void		print();									// Выводит таблицу
 			std::string	get_string();								// Получить строку для записи в текстовый файл
 			int			write_in_file(std::string file_name);		// Запись в текстовый файл
-			int			write_in_binary_file(std::string file_name);// Запись в бинарный файл
 			int			read_from_file(std::string file_name);		// Чтение из текстового файла
 
 		friend std::ostream& operator<<(std::ostream&, Table&); // Вывод в поток

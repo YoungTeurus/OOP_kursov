@@ -10,17 +10,78 @@
 
 class BaseType {
 public:
-	virtual		std::string		get() = 0;					// Возвращает строку - значение переменной
+	virtual		std::string		get() = 0;						// Возвращает строку - значение переменной
 	inline 		void			put(const char mas[]);
-	virtual		void			put(std::string) = 0;		// Записывает значение в переменную из строки
+	virtual		void			put(std::string) = 0;			// Записывает значение в переменную из строки
 	virtual		size_t			hash_code() { return typeid(BaseType).hash_code(); }// Возвращает хеш код типа
 	virtual						~BaseType() {}
+
+	virtual		int				compare(BaseType*) = 0;			// Сравнение объектов
+	virtual		void			add(BaseType*) = 0;				// Сложение объектов
+	virtual		BaseType*		copy() = 0;						// Копия объекта
+
+	inline		void			write_binary(std::ostream& os);	// Запись в бинарный файл
+	inline		void			read_binary(std::istream& is);	// Чтение из бинарного файла
+
+	inline		bool			operator==(BaseType& other);	//Переопределение оператора сравнения
+	inline		bool			operator!=(BaseType& other);	//Переопределение оператора сравнения
+	inline		bool			operator<(BaseType& other);		//Переопределение оператора сравнения
+	inline		bool			operator>(BaseType& other);		//Переопределение оператора сравнения
+	inline		bool			operator<=(BaseType& other);	//Переопределение оператора сравнения
+	inline		bool			operator>=(BaseType& other);	//Переопределение оператора сравнения
 };
 
 void BaseType::put(const char mas[])
 {
 	std::string temp(mas);
 	put(temp);
+}
+
+inline void BaseType::write_binary(std::ostream& os)
+{
+	auto str = get();
+	long int len = str.length();
+	os.write((const char*)&len, sizeof len);
+	os.write(str.c_str(), len);
+}
+
+inline void BaseType::read_binary(std::istream& is)
+{
+	std::string str_to_put;
+	long int len;
+	is.read((char*)&len, sizeof len);
+	str_to_put.resize(len);
+	is.read(&str_to_put[0], len);
+}
+
+inline bool BaseType::operator==(BaseType& other)
+{
+	return compare(&other) == 0;
+}
+
+inline bool BaseType::operator!=(BaseType& other)
+{
+	return compare(&other) != 0;
+}
+
+inline bool BaseType::operator<(BaseType& other)
+{
+	return compare(&other) < 0;
+}
+
+inline bool BaseType::operator>(BaseType& other)
+{
+	return compare(&other) > 0;
+}
+
+inline bool BaseType::operator<=(BaseType& other)
+{
+	return compare(&other) <= 0;
+}
+
+inline bool BaseType::operator>=(BaseType& other)
+{
+	return compare(&other) >= 0;
 }
 
 // Класс int-чисел
@@ -33,6 +94,10 @@ public:
 				void			put(std::string str);		// Записывает значение в переменную из строки
 				size_t			hash_code();				// Возвращает хеш код типа
 								~Int();
+
+				int				compare(BaseType*);			// Сравнение объектов
+				void			add(BaseType*);				// Сложение объектов
+				BaseType*		copy();						// Копия объекта
 };
 
 // Класс double-чисел
@@ -45,6 +110,10 @@ public:
 				void			put(std::string str);		// Записывает значение в переменную из строки
 				size_t			hash_code();				// Возвращает хеш код типа
 								~Double();
+
+				int				compare(BaseType*);			// Сравнение объектов
+				void			add(BaseType*);				// Сложение объектов
+				BaseType*		copy();						// Копия объекта
 };
 
 // Класс string
@@ -57,13 +126,10 @@ public:
 				void			put(std::string str);	   // Записывает значение в переменную из строки
 				size_t			hash_code();				// Возвращает хеш код типа
 								~String();
-};
 
-class Empty :public BaseType {
-public:
-				std::string		get();					   // Возвращает строку - значение переменной
-				void			put(std::string str) {}		// Записывает значение в переменную из строки
-				size_t			hash_code() { return 0; }	// Возвращает хеш код типа
+				int				compare(BaseType*);			// Сравнение объектов
+				void			add(BaseType*);				// Сложение объектов
+				BaseType*		copy();						// Копия объекта
 };
 
 // Определение функций классов Int, Double, String
@@ -82,9 +148,6 @@ inline std::string Int::get()
 {
 	std::stringstream ss;
 	ss << *_int;
-	//auto str = new std::string();
-	//*str = ss.str();
-	//return str;
 	return ss.str();
 }
 
@@ -108,23 +171,48 @@ inline Int::~Int()
 	delete _int;
 }
 
+inline int Int::compare(BaseType* other)
+{
+	if (other->hash_code() == hash_code()) {
+		auto temp_Int = new Int(*_int * -1);
+		temp_Int->add(other);
+		auto result = *(temp_Int->_int);
+		delete temp_Int;
+		if (result == 0)
+			return 0;
+		if (result < 0)
+			return 1;
+		return -1;
+	}
+	return -100;
+}
+
+inline void Int::add(BaseType* other)
+{
+	if (other->hash_code() == hash_code()) {
+		(*_int) += *(((Int*)other)->_int);
+	}
+}
+
+inline BaseType* Int::copy()
+{
+	return new Int(*this);
+}
+
 inline Double::Double()
 {
 	_double = new double();
 }
 
-inline Double::Double(double in_double)
+inline Double::Double(double dbl)
 {
-	_double = new double(in_double);
+	_double = new double(dbl);
 }
 
 inline std::string Double::get()
 {
 	std::stringstream ss;
 	ss << *_double;
-	//auto str = new std::string();
-	//*str = ss.str();
-	//return str;
 	return ss.str();
 }
 
@@ -146,6 +234,34 @@ inline size_t Double::hash_code()
 inline Double::~Double()
 {
 	delete _double;
+}
+
+inline int Double::compare(BaseType* other)
+{
+	if (other->hash_code() == hash_code()) {
+		auto temp_Int = new Double(*_double * -1);
+		temp_Int->add(other); //
+		auto result = *(temp_Int->_double);
+		delete temp_Int;
+		if (result == 0)
+			return 0;
+		if (result < 0)
+			return 1;
+		return -1;
+	}
+	return -100;
+}
+
+inline void Double::add(BaseType* other)
+{
+	if (other->hash_code() == hash_code()) {
+		(*_double) += *(((Double*)other)->_double);
+	}
+}
+
+inline BaseType* Double::copy()
+{
+	return new Double(*this);
 }
 
 inline String::String()
@@ -180,11 +296,23 @@ inline String::~String()
 	delete _string;
 }
 
-inline std::string Empty::get()
+inline int String::compare(BaseType* other)
 {
-	return "N/A";
+	if (other->hash_code() == hash_code()) {
+		return strcmp((*this)._string->c_str(), (*(String*)other)._string->c_str());
+	}
+	return -100;
 }
 
+inline void String::add(BaseType* other)
+{
+	*(*this)._string += *(*(String*)other)._string;
+}
+
+inline BaseType* String::copy()
+{
+	return new String(*this);
+}
 
 // Оператор вывода
 inline std::ostream& operator<<(std::ostream& out, BaseType& var) {
