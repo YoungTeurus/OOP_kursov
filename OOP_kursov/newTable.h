@@ -1,26 +1,38 @@
 ﻿#pragma once
 #include "newList.h"
-#define NUMBER_OF_TYPES 3 // Количество типов
 
 namespace nTable {
 	using namespace nList;
 	class Table {
 	
-		List _list_of_lists; // Список списков для хранения данных
-		List _list_of_names; // Список имён столбиков
-		int _num_of_columns; // Количество столбцов
+			List		_list_of_lists;								// Список списков для хранения данных
+			List		_list_of_names;								// Список имён столбиков
+			int			_num_of_columns;							// Количество столбцов
 	public:
-		Table();
-		bool add_column(int type_id); // Добавляет столбик в таблицу
-		bool add_column(int type_id, std::string col_name); // Добавляет столбик с названием в таблицу
-		bool append_in_column(BaseType* elem,int col); // Добавляет ячейку в выбранный столбик
-		List* get_cell(int col, int row); // Возвращает указатель на ячейку
+						Table();									// Конструктор пустой строки
 
-		void print(); // Выводит таблицу
-		std::string get_string(); // Получить строку для записи в текстовый файл
-		void write_in_file(); // Запись в текстовый файл
-		int read_from_file(); // Чтение из текстового файла
+			void		UI();										// Запускает интерфейс для работы с пользователем через командную строку
 
+			bool		add_column(int type_id);					// Добавляет столбик в таблицу
+			bool		add_column(int type_id, std::string col_name); // Добавляет столбик с названием в таблицу
+			bool		append_in_column(BaseType* elem,int col);	// Добавляет ячейку в выбранный столбик
+			List*		get_cell(int col, int row);					// Возвращает указатель на ячейку
+			void		edit_cell(int col, int row, std::string new_data); // Редактирование ячейки
+			void		clear_cell(int col, int row);				// Очищает ячейку, сбрасывая _data в nullptr
+			void		delete_column(int col);						// Удаляет колонку таблицы
+			void		delete_cell(int col, int row);				// Удаляет ячейку таблицы
+			void		delete_table();								// Удаляет всю таблицу
+
+			void		print();									// Выводит таблицу
+			std::string	get_string();								// Получить строку для записи в текстовый файл
+			int			write_in_file(std::string file_name);		// Запись в текстовый файл
+			int			write_in_binary_file(std::string file_name);// Запись в бинарный файл
+			int			read_from_file(std::string file_name);		// Чтение из текстового файла
+
+		friend std::ostream& operator<<(std::ostream&, Table&); // Вывод в поток
+		friend std::istream& operator>>(std::istream&, Table&); // Ввод из потока
+	public:
+	//private:
 		// Вспомогательные функции перевода чисел в std::string
 		static		std::string		convertInt(int number)
 		{
@@ -34,9 +46,13 @@ namespace nTable {
 			ss << number;
 			return ss.str();
 		}
-	
-		friend std::ostream& operator<<(std::ostream&, Table&); // Вывод в поток
-		friend std::istream& operator>>(std::istream&, Table&); // Ввод из потока
+		static		void			inputString_from_cin(std::string* str) {
+			using namespace std;
+			char temp_string[128];
+			cin >> temp_string;
+			while (getchar() != '\n') continue;
+			*str = *(new std::string(temp_string));
+		}
 	};
 
 	inline std::ostream& operator<<(std::ostream& out, Table& tbl) {

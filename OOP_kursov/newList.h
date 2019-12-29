@@ -1,8 +1,5 @@
 ﻿#pragma once
 #include "BaseTypes.h"
-/*
-if (typeid(this).hash_code() == (typeid(TYPE_0).hash_code()))
-*/
 
 namespace nList {
 
@@ -30,8 +27,10 @@ namespace nList {
 			void			set_data(BaseType* new_data);	// Установка поля _data
 			int				len();							// Получение длинны списка
 			bool			remove_elem(const int index);	// Удаление элемента списка
-			void			set_type(const int);					// Установка типа (только для ввода/вывода в файл)
+			int				get_type();						// Возвращение типа
+			void			set_type(const int);			// Установка типа (только для ввода/вывода в файл)
 			void			set_type_hash(size_t type_hash);// Установка хеша типа хранимых данных
+			bool			swap_columns(int a, int b);		// Изменение положения двух колонок
 	};
 
 	inline List::List()
@@ -70,6 +69,7 @@ namespace nList {
 	}
 	inline void List::put(std::string str)
 	{
+		//TODO: Подумать, нужно ли тут будет писать что-то для практической пользы
 	}
 	inline size_t List::hash_code()
 	{
@@ -106,9 +106,12 @@ namespace nList {
 	}
 	inline List* List::operator[](const int index)
 	{
-		if (!this) // Если обратились к пустому списку
+		if (!this || index < -1) // Если обратились к пустому списку или несуществующему индексу
 			return nullptr;
-		if (_data == nullptr && _next) { // Такое работает только для головы списка и только если у неё есть _next
+		if (index == -1 && !_data) { // Особый случай: -1 возвращает указатель на саму голову списка, если она действительно голова
+			return this;
+		}
+		if (!_data && _next) { // Такое работает только для головы списка и только если у неё есть _next
 			auto elem = _next;
 			auto _index = index;
 			while (elem && _index > 0) {
@@ -123,6 +126,9 @@ namespace nList {
 	{
 		if (!this)
 			return nullptr;
+		//if (!_data) {
+		//	return new Empty();
+		//}
 		return _data;
 	}
 	inline void List::set_data(BaseType* new_data)
@@ -159,6 +165,10 @@ namespace nList {
 		}
 		return false;
 	}
+	inline int List::get_type()
+	{
+		return _type;
+	}
 	inline void List::set_type(const int type)
 	{
 		_type = type;
@@ -166,5 +176,33 @@ namespace nList {
 	inline void List::set_type_hash(size_t type_hash)
 	{
 		_type_hash = type_hash;
+	}
+	inline bool List::swap_columns(int a, int b)
+	{
+		if (a == b || a < 0 || b < 0)
+			return false;
+		// Пускай a всегда будет "левым" элементом. Т.к. передали копии, можно изменять эти значения
+		if (a > b) {
+			auto temp = a;
+			a = b;
+			b = temp;
+		}
+		auto col_a = (*this)[a];
+		auto col_b = (*this)[b];
+		if (!col_a || !col_b) // Если хотя бы одной колонки не существует
+			return false;
+
+		// Получаем адреса колонок перед необходимыми
+		auto col_a_prev = (*this)[a - 1];
+		auto col_b_prev = (*this)[b - 1];
+
+		col_a_prev->_next = col_b;
+		col_b_prev->_next = col_a;
+
+		auto temp = col_a->_next;
+		col_a->_next = col_b->_next;
+		col_b->_next = temp;
+
+		return true;
 	}
 }

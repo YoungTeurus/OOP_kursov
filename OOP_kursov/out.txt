@@ -1,1 +1,0 @@
->Column 0: int|0|0|1|2|3|4|5|#Column 1: int|0|-4959|1334|4168|-3523|1960|#Column 2: double|1|3469.5|1501.5|726.5|4359.5|-534.5|#Column 3: std::string|2|Wow it is 0 element!|Wow it is 1 element!|Wow it is 2 element!|Wow it is 3 element!|Wow it is 4 element!|#<

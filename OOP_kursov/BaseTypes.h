@@ -2,6 +2,12 @@
 #include <iostream>
 #include <sstream>
 
+#define Int_TYPE typeid(Int).hash_code()
+#define Double_TYPE typeid(Double).hash_code()
+#define String_TYPE typeid(String).hash_code()
+
+#define NUMBER_OF_TYPES 3 // Количество типов
+
 class BaseType {
 public:
 	virtual		std::string		get() = 0;					// Возвращает строку - значение переменной
@@ -53,6 +59,13 @@ public:
 								~String();
 };
 
+class Empty :public BaseType {
+public:
+				std::string		get();					   // Возвращает строку - значение переменной
+				void			put(std::string str) {}		// Записывает значение в переменную из строки
+				size_t			hash_code() { return 0; }	// Возвращает хеш код типа
+};
+
 // Определение функций классов Int, Double, String
 
 inline Int::Int()
@@ -81,7 +94,7 @@ inline void Int::put(std::string str)
 		*_int = std::stoi(str);  // Переводим строку в int
 	}
 	catch (std::invalid_argument) {
-		// Как-нибудь обрабатывать ошибку
+		*_int = 0;
 	}
 }
 
@@ -121,7 +134,7 @@ inline void Double::put(std::string str)
 		*_double = std::stod(str);  // Переводим строку в int
 	}
 	catch (std::invalid_argument) {
-		// Как-нибудь обрабатывать ошибку
+		*_double = 0;
 	}
 }
 
@@ -165,6 +178,11 @@ inline size_t String::hash_code()
 inline String::~String()
 {
 	delete _string;
+}
+
+inline std::string Empty::get()
+{
+	return "N/A";
 }
 
 
