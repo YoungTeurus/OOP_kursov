@@ -10,6 +10,7 @@
 
 class BaseType {
 public:
+	virtual		std::string*	type() = 0;						// Возвращает строку - название класса
 	virtual		std::string		get() = 0;						// Возвращает строку - значение переменной
 	inline 		void			put(const char mas[]);
 	virtual		void			put(std::string) = 0;			// Записывает значение в переменную из строки
@@ -95,6 +96,7 @@ public:
 				size_t			hash_code();				// Возвращает хеш код типа
 								~Int();
 
+				std::string*	type();						// Возвращает строку - название класса
 				int				compare(BaseType*);			// Сравнение объектов
 				void			add(BaseType*);				// Сложение объектов
 				BaseType*		copy();						// Копия объекта
@@ -111,6 +113,7 @@ public:
 				size_t			hash_code();				// Возвращает хеш код типа
 								~Double();
 
+				std::string*	type();						// Возвращает строку - название класса
 				int				compare(BaseType*);			// Сравнение объектов
 				void			add(BaseType*);				// Сложение объектов
 				BaseType*		copy();						// Копия объекта
@@ -127,6 +130,7 @@ public:
 				size_t			hash_code();				// Возвращает хеш код типа
 								~String();
 
+				std::string*	type();						// Возвращает строку - название класса
 				int				compare(BaseType*);			// Сравнение объектов
 				void			add(BaseType*);				// Сложение объектов
 				BaseType*		copy();						// Копия объекта
@@ -169,6 +173,11 @@ inline size_t Int::hash_code()
 inline Int::~Int()
 {
 	delete _int;
+}
+
+inline std::string* Int::type()
+{
+	return new std::string(typeid(Int).name());
 }
 
 inline int Int::compare(BaseType* other)
@@ -236,6 +245,11 @@ inline Double::~Double()
 	delete _double;
 }
 
+inline std::string* Double::type()
+{
+	return new std::string(typeid(Double).name());
+}
+
 inline int Double::compare(BaseType* other)
 {
 	if (other->hash_code() == hash_code()) {
@@ -294,6 +308,11 @@ inline size_t String::hash_code()
 inline String::~String()
 {
 	delete _string;
+}
+
+inline std::string* String::type()
+{
+	return new std::string(typeid(String).name());
 }
 
 inline int String::compare(BaseType* other)

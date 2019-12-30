@@ -14,6 +14,7 @@ namespace nList {
 			void			put(std::string str);			// Записывает значение в переменную из строки
 	static	size_t			hash_code();					// Возвращает хеш код типа
 							~List();
+			std::string*	type();							// Возвращает строку - название класса
 			int				compare(BaseType*);				// Сравнение объектов
 			void			add(BaseType*) {}				// Сложение объектов
 			BaseType*		copy();							// Копия объекта
@@ -86,6 +87,10 @@ namespace nList {
 		if (!_data)
 			delete _next;
 		delete _data;
+	}
+	inline std::string* List::type()
+	{
+		return new std::string(typeid(List).name());
 	}
 	inline int List::compare(BaseType*)
 	{

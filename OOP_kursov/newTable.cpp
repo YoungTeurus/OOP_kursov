@@ -450,6 +450,7 @@ void nTable::Table::print()
 	for (int row = 0; row < max_rows; row++) {
 		for (int col = 0; col < _num_of_columns; col++) {
 			std::cout << (*strings[col])[row];
+			//delete strings[col];
 		}
 		std::cout << "\n";
 		for (int col = 0; col < _num_of_columns; col++) {
@@ -458,7 +459,9 @@ void nTable::Table::print()
 		}
 		std::cout << "\n";
 	}
-	
+	for (int col = 0; col < _num_of_columns; col++) {
+		delete strings[col];
+	}
 }
 
 std::string nTable::Table::get_string()
